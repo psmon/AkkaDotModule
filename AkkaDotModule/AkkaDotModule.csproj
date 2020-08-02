@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>AkkaDotModule.Webnori</PackageId>
+    <Version>0.0.5</Version>
+  </PropertyGroup>
+
+</Project>

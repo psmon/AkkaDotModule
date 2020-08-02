@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaDotModule", "AkkaDotModule\AkkaDotModule.csproj", "{0109FF0B-5148-4EB8-8936-990BA65CDBF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74C14D6F-2E82-465A-B603-2B48BBD2D646}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAkkaDotModule", "TestAkkaDotModule\TestAkkaDotModule.csproj", "{C696446B-0F53-4210-904B-024ABDC2FE22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0109FF0B-5148-4EB8-8936-990BA65CDBF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0109FF0B-5148-4EB8-8936-990BA65CDBF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0109FF0B-5148-4EB8-8936-990BA65CDBF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0109FF0B-5148-4EB8-8936-990BA65CDBF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C696446B-0F53-4210-904B-024ABDC2FE22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C696446B-0F53-4210-904B-024ABDC2FE22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C696446B-0F53-4210-904B-024ABDC2FE22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C696446B-0F53-4210-904B-024ABDC2FE22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8A418874-08BB-4BA1-8565-A15BBC1D12AE}
+	EndGlobalSection
+EndGlobal
