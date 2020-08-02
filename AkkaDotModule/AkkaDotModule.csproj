@@ -5,6 +5,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>AkkaDotModule.Webnori</PackageId>
     <Version>0.0.5</Version>
+    <RepositoryUrl>https://github.com/psmon/AkkaDotModule</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/psmon/AkkaDotModule</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
