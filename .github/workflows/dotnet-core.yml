@@ -2,24 +2,29 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*.*.*' # v1.0.0 과같이 태깅을 달면 배포가 작동됩니다.
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    steps:
+    steps:	  
     - uses: actions/checkout@v2
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore AkkaDotModule/AkkaDotModule.csproj
     - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet build AkkaDotModule/AkkaDotModule.csproj --configuration Release --no-restore
+    - name: Add private GitHub registry to NuGet
+      run: dotnet nuget add source https://nuget.pkg.github.com/psmon/index.json -n psmon.github -u ${{ secrets.NUGET_USER }} -p ${{ secrets.NUGET_TOKEN }} --store-password-in-clear-text
+    - name: Push generated package to GitHub registry
+      run: dotnet nuget push AkkaDotModule/bin/Release/AkkaDotModule.Webnori.$(git describe --tags | sed s/[mv]//g).nupkg --source "psmon.github"
