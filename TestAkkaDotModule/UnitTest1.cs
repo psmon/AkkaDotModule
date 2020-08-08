@@ -1,18 +1,25 @@
-using NUnit.Framework;
+using System;
+using AkkaNetCoreTest;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace TestAkkaDotModule
 {
-    public class Tests
+    /// <summary>
+    /// 설명 : TestKitXunit 상속 테스트
+    /// 목적 : TestKitXunit 상속및 콘솔출력 테스트
+    /// </summary>
+    public class UnitTests : TestKitXunit
     {
-        [SetUp]
-        public void Setup()
+        public UnitTests(ITestOutputHelper output) : base(output)
         {
         }
 
-        [Test]
-        public void Test1()
+        [Theory(DisplayName = "유닛테스트 출력확인")]
+        [InlineData(100)]
+        public void Test1(int cutoff)
         {
-            Assert.Pass();
+            Console.WriteLine($"출력확인.....{cutoff}");
         }
     }
 }
