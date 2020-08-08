@@ -1,19 +1,19 @@
 # AkkaDotModule
 
-프로젝트명 : AkkaDotBoot
+프로젝트명 : 아카닷부트
 
 닷넷 환경에서 AKKA의 모듈을 공통화하고
 
-AKKA를 잘 모르더라도, 유용한 메시지 큐처리를  다양한 프로젝트에서 심플하게
+AKKA를 잘 모르더라도, 유용한 메시지 큐처리를 다양한 프로젝트에서 심플하게
 
-사용할수 있는게 하는것이 목표입니다. 버전업이 될때마다 유용한 커스텀 액터모델을 제공하게됩니다.
+사용할수 있게 하는것이 목표입니다. 버전업이 될때마다 유용한 커스텀 액터모델을 제공하게되며
 
 메시지 큐를 활용한 후처리 시스템을 설계하고자 할때 도움이 되었으면 좋겠습니다.
 
 
 # 제공기능
 
-- 0.0.8 : 조절기([Usage](TestAkkaDotModule/TestActors/ThrottleWorkTest.cs)) 추가,벌크 메시지를 대량인입하고,조절기에 의한 속도제어가 가능하여 안전한 스트림처리가 가능합니다.
+- 0.0.8 : 조절기([Usage](TestAkkaDotModule/TestActors/ThrottleWorkTest.cs)) 추가, 메시지를 대량인입하고 조절기에서 안전한 속도제어가 필요할때 사용
 
 
 # 모듈 테스트
@@ -32,14 +32,13 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 # 모듈 사용방법
 
-Private Github Nuget을 활용하고 있으며 Nuget을 읽어오는 권한은 Open하였습니다.
+Private Github Nuget을 학습하고자 활용하고 있으며 Nuget을 읽어오는 권한은 Open하였습니다.
 
-Nuget 셋팅없이, 프로젝트 참조로 사용가능합니다. 본 소스는 마음것 수정하여 활용가능합니다.
+Nuget 셋팅없이, 프로젝트 참조로도 사용가능하며, 본 소스는 마음것 수정하여 활용가능합니다.
 
     Nuget Read Token : 9d5defa3db7ec456b0bad0b273e720ff33860396
 
 ## nuget.config
-
 
 
 '''
@@ -62,7 +61,7 @@ Nuget 셋팅없이, 프로젝트 참조로 사용가능합니다. 본 소스는 
 
     //프로젝트내 Nuget참조 추가
     <ItemGroup>
-        <PackageReference Include="AkkaDotModule.Webnori" Version="0.0.7" />
+        <PackageReference Include="AkkaDotModule.Webnori" Version="0.0.8" />
     </ItemGroup>
 
 '''
