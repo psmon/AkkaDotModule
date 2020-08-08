@@ -94,6 +94,7 @@ Github Nuget빌드를 구축하고자 할시 참고 하세요..
 
 ## 추가 참고자료
  - http://wiki.webnori.com/display/AKKA : AKKA의 전반적인 컨셉
+ - http://wiki.webnori.com/display/webfr/AKKA+Setting+For+NetCore : NetCoreAPI에 AKKA 탑재
  - http://wiki.webnori.com/display/webfr/GitHub+Action+With+Nuget+Package : Github에서 개인 Nuget Package 활용법 
 
 
