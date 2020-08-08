@@ -63,6 +63,8 @@ namespace TestAkkaDotModule.TestActors
                 for (int i=0;i<totalBatchCount;i++)
                 {
                     var batchData = probe.ExpectMsg<BatchData>();
+
+                    // 초당 5개씩 처리되는것 확인
                     string strResult = $"{DateTime.Now.ToString()} {batchData.Data as string}";
                     Console.WriteLine(strResult);
 

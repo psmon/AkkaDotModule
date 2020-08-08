@@ -24,13 +24,17 @@ AKKA를 잘 모르더라도, 유용한 메시지 큐처리를  다양한 프로�
 
     dotnet test TestAkkaDotModule
 
+Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
+
+![](Doc/ThrottleWork01.png)
+
 
 
 # 모듈 사용방법
 
 Private Github Nuget을 활용하고 있으며 Nuget을 읽어오는 권한은 Open하였습니다.
 
-Nuget 셋팅과정이 귀찮으면, 프로젝트 참조로 사용가능합니다. 
+Nuget 셋팅없이, 프로젝트 참조로 사용가능합니다. 본 소스는 마음것 수정하여 활용가능합니다.
 
     Nuget Read Token : 9d5defa3db7ec456b0bad0b273e720ff33860396
 
@@ -63,34 +67,6 @@ Nuget 셋팅과정이 귀찮으면, 프로젝트 참조로 사용가능합니다
 
 '''
 
-
-# Private Nuget
-
-Github Nuget빌드를 구축하고자 할시 참고 하세요..
-
-## 개인 Nuget 등록(최초1회)
-
-    dotnet nuget add source https://nuget.pkg.github.com/psmon/index.json -n psmon.github -u ${{ secrets.NUGET_USER }} -p ${{ secrets.NUGET_TOKEN }} --store-password-in-clear-text
-
-
-## Build And Push
-
-    dotnet restore AkkaDotModule/AkkaDotModule.csproj
-
-    dotnet build AkkaDotModule/AkkaDotModule.csproj --configuration Release --no-restore
-
-    dotnet pack --configuration Release
-
-    dotnet nuget push "AkkaDotModule/bin/Release/AkkaDotModule.Webnori.0.0.5.nupkg" --source psmon.github
-
-
-## Nuget 명령
-
-    dotnet list package
-
-    dotnet nuget list source
-
-    dotnet nuget remove source psmon.github
 
 ## 추가 참고자료
  - http://wiki.webnori.com/display/AKKA : AKKA의 전반적인 컨셉
