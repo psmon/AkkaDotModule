@@ -11,10 +11,15 @@ AKKA를 잘 모르더라도, 유용한 메시지 큐처리를 다양한 프로�
 메시지 큐를 활용한 후처리 시스템을 설계하고자 할때 도움이 되었으면 좋겠습니다.
 
 
-# 제공기능
+# 업데이트 리스트
 
+- 0.0.9 : DotNetAPP에서 AkkaDotModule을 쉽게사용하기위한 AkkaLoad 를 추가
 - 0.0.8 : 조절기([Usage](TestAkkaDotModule/TestActors/ThrottleWorkTest.cs)) 추가, 메시지를 대량인입하고 조절기에서 안전한 속도제어가 필요할때 사용
 
+
+# AkkaDotBootApi
+
+AkkaDotModule 를 DotNetCoare API에서 활용하는 샘플을 살펴볼수 있습니다.
 
 # 모듈 테스트
 
@@ -27,7 +32,6 @@ AKKA를 잘 모르더라도, 유용한 메시지 큐처리를 다양한 프로�
 Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 ![](Doc/ThrottleWork01.png)
-
 
 
 # 모듈 사용방법
