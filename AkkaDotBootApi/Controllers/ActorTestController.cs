@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 namespace AkkaDotBootApi.Controllers
 {
     [ApiController]
-    [Route("test")]
+    [Route("api/[controller]")]
     public class ActorTestController : ControllerBase
     {
 
@@ -26,8 +26,11 @@ namespace AkkaDotBootApi.Controllers
             throttleWork = AkkaLoad.ActorSelect("throttleWork");
         }
 
-        [HttpGet("1")]
-        public int Actor1()
+        /// <summary>
+        /// ThrottleWorkTest
+        /// </summary>
+        [HttpGet("ThrottleWorkTest")]
+        public int ThrottleWorkTest()
         {
             List<object> batchDatas = new List<object>();
             int totalBatchCount = 100;

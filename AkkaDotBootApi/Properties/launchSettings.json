@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "test",
+      "launchUrl": "help/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "AkkaDotBootApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "test",
+      "launchUrl": "help/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
