@@ -18,6 +18,7 @@ Github Nuget빌드를 구축하고자 할시 참고 하세요..
     dotnet pack --configuration Release
 
     dotnet nuget push "AkkaDotModule/bin/Release/AkkaDotModule.Webnori.0.0.5.nupkg" --source psmon.github
+    
 
 
 ## Nuget 명령

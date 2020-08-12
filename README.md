@@ -11,7 +11,7 @@ AKKA를 잘 모르더라도, 유용한 메시지 큐처리를 다양한 프로�
 메시지 큐를 활용한 후처리 시스템을 설계하고자 할때 도움이 되었으면 좋겠습니다.
 
 
-# 업데이트 리스트
+# 주요 릴리즈 노트
 
 - 0.0.9 : DotNetAPP에서 AkkaDotModule을 쉽게사용하기위한 AkkaLoad 를 추가
 - 0.0.8 : 조절기([Usage](TestAkkaDotModule/TestActors/ThrottleWorkTest.cs)) 추가, 메시지를 대량인입하고 조절기에서 안전한 속도제어가 필요할때 사용
@@ -34,41 +34,11 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 ![](Doc/ThrottleWork01.png)
 
 
-# 모듈 사용방법
+# Nuget 경로
 
-Private Github Nuget을 학습하고자 활용하고 있으며 Nuget을 읽어오는 권한은 Open하였습니다.
+    https://www.nuget.org/packages/AkkaDotModule.Webnori/
 
-Nuget 셋팅없이, 프로젝트 참조로도 사용가능하며, 본 소스는 마음것 수정하여 활용가능합니다.
-
-    Nuget Read Token : 9d5defa3db7ec456b0bad0b273e720ff33860396
-
-## nuget.config
-
-
-'''
-    
-    //nuget.config로 저장하여 사용할 동일프로젝트 루트에 위치
-    <?xml version="1.0" encoding="utf-8"?>
-    <configuration>
-        <packageSources>
-		    <add key="NuGet" value="https://api.nuget.org/v3/index.json" />
-            <add key="psmon.github" value="https://nuget.pkg.github.com/psmon/index.json" />
-        </packageSources>
-        <packageSourceCredentials>
-		    <psmon.github>
-                <add key="Username" value="psmon" />
-                <add key="ClearTextPassword" value="9d5defa3db7ec456b0bad0b273e720ff33860396" />
-        </psmon.github>
-        </packageSourceCredentials>
-    </configuration>
-
-
-    //프로젝트내 Nuget참조 추가
-    <ItemGroup>
-        <PackageReference Include="AkkaDotModule.Webnori" Version="0.0.8" />
-    </ItemGroup>
-
-'''
+    dotnet add package AkkaDotModule.Webnori --version x.x.x
 
 
 ## 추가 참고자료
