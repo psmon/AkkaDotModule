@@ -41,9 +41,7 @@ namespace AkkaDotBootApi
             // Akka 셋팅
             var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var akkaConfig = AkkaLoad.Load(envName, Configuration);
-            actorSystem = ActorSystem.Create("AkkaDotBootSystem", akkaConfig);
-            var provider = services.BuildServiceProvider();
-            actorSystem.UseServiceProvider(provider);
+            actorSystem = ActorSystem.Create("AkkaDotBootSystem", akkaConfig);            
             services.AddAkka(actorSystem);
 
             // Swagger
