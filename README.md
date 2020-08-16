@@ -45,8 +45,8 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 # 지원기능
 
+- HelloActor : AKKA입문시 처음봐야할 기본 액터 다루기
 - ThrottleWork : 스트림의 속도 제어가 필요할때 밸브의 잠금기능을 활용
-- 
 
 
 [More Detail](AKKAUSING.md)
