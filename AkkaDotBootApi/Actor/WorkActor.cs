@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Akka.Actor;
 using Akka.Event;
 using AkkaDotModule.Models;
 
 namespace AkkaDotBootApi.Actor
 {
+    /// <summary>
+    /// WorkActor의 구현은, 각 어플리케이션에서 직접 구현 
+    /// </summary>
     public class WorkActor : ReceiveActor
     {
         private readonly ILoggingAdapter logger = Context.GetLogger();
@@ -16,8 +16,8 @@ namespace AkkaDotBootApi.Actor
         {
             ReceiveAsync<BatchData>(async batchData =>
             {
-                string strResult = $"{batchData.Data as string}";
-                Console.WriteLine(strResult);
+                string strResult = $"{batchData.Data as string}";                
+                logger.Info(strResult);
                 //TODO : Somthing
             });
         }

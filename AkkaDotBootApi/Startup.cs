@@ -4,6 +4,7 @@ using System.Reflection;
 using Akka.Actor;
 using Akka.DI.Extensions.DependencyInjection;
 using AkkaDotBootApi.Actor;
+using AkkaDotModule.ActorSample;
 using AkkaDotModule.ActorUtils;
 using AkkaDotModule.Config;
 using AkkaDotModule.Models;
@@ -126,6 +127,18 @@ namespace AkkaDotBootApi
 
             lifetime.ApplicationStarted.Register(() =>
             {
+                // HelloActor 기본액터
+                AkkaLoad.RegisterActor("helloActor" /*AkkaLoad가 인식하는 유니크명*/,
+                    actorSystem.ActorOf(Props.Create(() => new HelloActor("webnori")), "helloActor" /*AKKA가 인식하는 Path명*/
+                ));
+
+                var helloActor = actorSystem.ActorSelection("user/helloActor");
+                var helloActor2 = AkkaLoad.ActorSelect("helloActor");
+
+                helloActor.Tell("hello");
+                helloActor2.Tell("hello");
+
+
                 // 밸브 Work : 초당 작업량을 조절                
                 int timeSec = 1;
                 int elemntPerSec = 5;

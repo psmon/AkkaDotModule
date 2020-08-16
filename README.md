@@ -2,17 +2,16 @@
 
 프로젝트명 : 아카닷부트
 
-닷넷 환경에서 AKKA의 모듈을 공통화하고
+닷넷 환경에서 AKKA의 모듈을 공통화하고 AKKA.NET을 학습할수 있는 환경을 제공하여
 
-AKKA를 잘 모르더라도, 유용한 메시지 큐처리를 다양한 프로젝트에서 심플하게
+닷넷코어에서 유용한 메시지 큐처리를 다양한 프로젝트에서 심플하게 사용할수 있게 하는것이 목표입니다.
 
-사용할수 있게 하는것이 목표입니다. 버전업이 될때마다 유용한 커스텀 액터모델을 제공하게되며
-
-메시지 큐를 활용한 후처리 시스템을 설계하고자 할때 도움이 되었으면 좋겠습니다.
+버전업이 될때마다 유용한 커스텀 액터모델을 제공및 설명하며, 액터와 API에서 사용 샘플을 동시에 추가합니다. 
 
 
 # 주요 릴리즈 노트
 
+- 1.0.1 : 기본 액터([Usage](TestAkkaDotModule/TestActors/HelloActorTest.cs)) 사용법추가
 - 1.0.0 : Nuget에서 AkkaDotModule.Webnori 로 검색하여 설치가능
 - 0.0.9 : DotNetAPP에서 AkkaDotModule을 쉽게사용하기위한 AkkaLoad 를 추가
 - 0.0.8 : 조절기([Usage](TestAkkaDotModule/TestActors/ThrottleWorkTest.cs)) 추가, 메시지를 대량인입하고 조절기에서 안전한 속도제어가 필요할때 사용
@@ -20,7 +19,10 @@ AKKA를 잘 모르더라도, 유용한 메시지 큐처리를 다양한 프로�
 
 # AkkaDotBootApi
 
-AkkaDotModule 를 DotNetCoare API에서 활용하는 샘플을 살펴볼수 있습니다.
+AkkaDotModule 를 닷넷코어 API에서 활용하는 샘플을 살펴볼수 있습니다.
+
+[APiControllers](AkkaDotBootApi/README.md)
+
 
 # 모듈 테스트
 
@@ -43,22 +45,12 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 # 지원기능
 
-## ThrottleWork
+- ThrottleWork : 스트림의 속도 제어가 필요할때 밸브의 잠금기능을 활용
+- 
 
-    int timeSec = 1;        //처리되는주기
-    int elemntPerMax = 5;   //처리되는 주기방 처리할 최대개수            
 
-    var throttleWork = Sys.ActorOf(Props.Create(() => new ThrottleWork(elemntPerSec, timeSec)));
-    throttleWork.Tell(new SetTarget(probe));
+[More Detail](AKKAUSING.md)
 
-    int totalBatchCount = 30;   //총 테스트 개수
-            
-    var batchList = new BatchList(batchDatas.ToImmutableList());
-
-    // 데이터를 한꺼번에 큐에 넣는다.
-    throttleWork.Tell(batchList);
-
-    지정된 작업자(probe)에서 설정된 속력으로 안정적으로 처리됨
 
 # 닷넷어플리케이션 탑재
 
@@ -100,15 +92,13 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
     }
 
 ## 사용
-IActorRef throttleWork = AkkaLoad.ActorSelect("throttleWork");
-var batchList = new BatchList(batchDatas.ToImmutableList());
-throttleWork.Tell(batchList);
+    IActorRef throttleWork = AkkaLoad.ActorSelect("throttleWork");
+    var batchList = new BatchList(batchDatas.ToImmutableList());
+    throttleWork.Tell(batchList);
             
 
-
 ## 추가 참고자료
+ - https://getakka.net/ : Akka.net Origin - AKKA의 학습은 원문사이트에서 하는것을 권장합니다. 
  - http://wiki.webnori.com/display/AKKA : AKKA의 전반적인 컨셉
  - http://wiki.webnori.com/display/webfr/AKKA+Setting+For+NetCore : NetCoreAPI에 AKKA 탑재
  - http://wiki.webnori.com/display/webfr/GitHub+Action+With+Nuget+Package : Github에서 개인 Nuget Package 활용법 
-
-

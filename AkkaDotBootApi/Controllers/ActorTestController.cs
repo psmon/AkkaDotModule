@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Threading.Tasks;
 using Akka.Actor;
 using AkkaDotModule.Config;
 using AkkaDotModule.Models;
@@ -20,10 +17,14 @@ namespace AkkaDotBootApi.Controllers
 
         private readonly IActorRef throttleWork;
 
-        public ActorTestController(ILogger<ActorTestController> logger)
+        private readonly ActorSystem _actorSystem;
+
+
+        public ActorTestController(ILogger<ActorTestController> logger, ActorSystem actorSystem)
         {
             _logger = logger;
             throttleWork = AkkaLoad.ActorSelect("throttleWork");
+            _actorSystem = actorSystem;
         }
 
         /// <summary>
@@ -49,5 +50,30 @@ namespace AkkaDotBootApi.Controllers
 
             return 1;
         }
+
+        /// <summary>
+        /// HelloActor-Tell (fire or hello)
+        /// 특정 액터에게 메시지만 전송(fire and forget)
+        /// </summary>
+        [HttpGet("HelloActor-Tell")]
+        public int HelloActor_Tell(string message)
+        {
+            var helloActor = _actorSystem.ActorSelection("user/helloActor");
+            helloActor.Tell(message);
+            return 1;
+        }
+
+        /// <summary>
+        /// HelloActor-ASK (hello)
+        /// 액터에게 메시지 전송후,결과값을 받을수 있음(ask)
+        /// </summary>
+        [HttpGet("HelloActor-Ask")]
+        public string HelloActor_Ask()
+        {
+            var helloActor = _actorSystem.ActorSelection("user/helloActor");
+            var result = helloActor.Ask("hello").Result as string;
+            return result;
+        }
+
     }
 }
