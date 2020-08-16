@@ -37,4 +37,19 @@ Throttle(조절기)는 메시징의 흐름제어를 할때 유용하게 사용�
 
     지정된 작업자(probe)에서 설정된 속력으로 안정적으로 처리됨
 
+## PriorityMessageMailbox
+
+PriorityMessage(우선순위메시지)는 동시에 발생하는 메시지에대한, 전송 우선순위를 조절할수 있습니다.
+
+    // priority 우선순위높음 = 낮은순자를 위미...
+    PriorityMessage msg1 = new PriorityMessage("test1", 5);
+    PriorityMessage msg2 = new PriorityMessage("test2", 4);
+    PriorityMessage msg3 = new PriorityMessage("test3", 3);
+    PriorityMessage msg4 = new PriorityMessage("test4", 2);
+    PriorityMessage msg5 = new PriorityMessage("test5", 1);
+    mailBoxActor.Tell(msg1);
+    mailBoxActor.Tell(msg2);
+    mailBoxActor.Tell(msg3);
+    mailBoxActor.Tell(msg4);
+    mailBoxActor.Tell(msg5);
 
