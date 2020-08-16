@@ -5,13 +5,24 @@ using System.Linq;
 using Akka.Actor;
 using Akka.Configuration;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using AkkaConfig = Akka.Configuration.Config;
 
 namespace AkkaDotModule.Config
 {
-    public class AkkaLoad
+    public static class AkkaLoad
     {
+        public static ActorSystem ActorSystem { get; set; }
+
         public static ConcurrentDictionary<string, IActorRef> ActorList = new ConcurrentDictionary<string, IActorRef>();
+
+        public static IServiceCollection AddAkka(this IServiceCollection services, ActorSystem actorSystem)
+        {
+            ActorSystem = actorSystem;
+            // Register ActorSystem
+            services.AddSingleton<ActorSystem>((provider) => actorSystem);
+            return services;
+        }
 
         public static IActorRef RegisterActor(string name, IActorRef actorRef)
         {

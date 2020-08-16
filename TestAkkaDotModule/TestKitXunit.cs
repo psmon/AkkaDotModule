@@ -19,7 +19,7 @@ namespace AkkaNetCoreTest
 akka.loglevel = DEBUG
 
 my-custom-mailbox {
-    mailbox-type : ""AkkaNetCore.Models.Message.IssueTrackerMailbox, AkkaNetCore""
+    mailbox-type : ""AkkaDotModule.Models.PriorityMessageMailbox, AkkaDotModule""
 }
 
 akka.persistence.max-concurrent-recoveries = 50 #복구 최고 개수

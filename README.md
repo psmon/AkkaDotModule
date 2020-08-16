@@ -11,10 +11,11 @@
 
 # 주요 릴리즈 노트
 
-- 1.0.1 : 기본 액터([Usage](TestAkkaDotModule/TestActors/HelloActorTest.cs)) 사용법추가
+- 1.0.2 : 메시지 우선순위([PriorityMessageMailbox](TestAkkaDotModule/TestActors/PriorityMessageMailboxTest.cs)) 처리기 추가
+- 1.0.1 : 기본 액터([TestActors](TestAkkaDotModule/TestActors/HelloActorTest.cs)) 사용법추가
 - 1.0.0 : Nuget에서 AkkaDotModule.Webnori 로 검색하여 설치가능
 - 0.0.9 : DotNetAPP에서 AkkaDotModule을 쉽게사용하기위한 AkkaLoad 를 추가
-- 0.0.8 : 조절기([Usage](TestAkkaDotModule/TestActors/ThrottleWorkTest.cs)) 추가, 메시지를 대량인입하고 조절기에서 안전한 속도제어가 필요할때 사용
+- 0.0.8 : 조절기([ThrottleWork](TestAkkaDotModule/TestActors/ThrottleWorkTest.cs)) 추가, 메시지를 대량인입하고 조절기에서 안전한 속도제어가 필요할때 사용
 
 
 # AkkaDotBootApi

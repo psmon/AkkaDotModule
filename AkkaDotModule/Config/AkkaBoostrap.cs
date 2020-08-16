@@ -1,19 +1,11 @@
 ﻿using System;
 using Akka.Actor;
 using Akka.Cluster.Tools.Singleton;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AkkaDotModule.Config
 {
     public static class AkkaBoostrap
     {
-        public static IServiceCollection AddAkka(this IServiceCollection services, ActorSystem actorSystem)
-        {
-            // Register ActorSystem
-            services.AddSingleton<ActorSystem>((provider) => actorSystem);
-            return services;
-        }
-
         public static IActorRef BootstrapSingleton<T>(this ActorSystem system, string name, string role = null) where T : ActorBase
         {
             var props = ClusterSingletonManager.Props(
