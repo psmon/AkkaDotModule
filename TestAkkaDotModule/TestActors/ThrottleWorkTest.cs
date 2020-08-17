@@ -39,8 +39,8 @@ namespace TestAkkaDotModule.TestActors
             var throttleWork = Sys.ActorOf(Props.Create(() => new ThrottleWork(elemntPerSec, timeSec)));
             throttleWork.Tell(new SetTarget(probe));
 
-            int totalBatchCount = 30;   //총 테스트 개수
-            int expectedTestSec = (totalBatchCount / elemntPerSec) + 1; //완료최대예상시간
+            int totalBatchCount = 10;   //총 테스트 개수
+            int expectedTestSec = (totalBatchCount / elemntPerSec) + 2; //완료최대예상시간
 
             List<object> batchDatas = new List<object>();
             //테스트 데이터 준비
