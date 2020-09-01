@@ -1,0 +1,29 @@
+name: .NET Core
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'p*.*.*' # p1.0.0 과같이 태깅을 달면 푸시가됩니다.
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:	  
+    - uses: actions/checkout@v2
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Docker Login
+      run: docker login docker.webnori.com -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PW }}
+    - name: DockerBuild
+      run: docker build -f AkkaDotBootApi/Dockerfile --force-rm -t docker.webnori.com/akka-dot-bootapi:latest -t docker.webnori.com/akka-dot-bootapi:$(git describe --tags | sed s/[v]//g) --label "com.microsoft.created-by=visual-studio" --label "com.microsoft.visual-studio.project-name=AkkaDotBootApi" .    
+    - name: Docker Push
+      run: docker push docker.webnori.com/akka-dot-bootapi:latest
+      

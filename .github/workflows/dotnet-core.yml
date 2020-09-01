@@ -29,6 +29,6 @@ jobs:
     - name: Add private GitHub registry to NuGet
       run: dotnet nuget add source https://nuget.pkg.github.com/psmon/index.json -n psmon.github -u ${{ secrets.NUGET_USER }} -p ${{ secrets.NUGET_TOKEN }} --store-password-in-clear-text
     - name: Push generated package to GitHub registry
-      run: dotnet nuget push AkkaDotModule/bin/Release/AkkaDotModule.Webnori.$(git describe --tags | sed s/[mv]//g).nupkg --source "psmon.github"
+      run: dotnet nuget push AkkaDotModule/bin/Release/AkkaDotModule.Webnori.$(git describe --tags | sed s/[v]//g).nupkg --source "psmon.github"
     - name: Push generated package to Nuget registry
-      run: dotnet nuget push AkkaDotModule/bin/Release/AkkaDotModule.Webnori.$(git describe --tags | sed s/[mv]//g).nupkg -k ${{ secrets.NUGET_PUBLIC }} --source "https://api.nuget.org/v3/index.json"
+      run: dotnet nuget push AkkaDotModule/bin/Release/AkkaDotModule.Webnori.$(git describe --tags | sed s/[v]//g).nupkg -k ${{ secrets.NUGET_PUBLIC }} --source "https://api.nuget.org/v3/index.json"
