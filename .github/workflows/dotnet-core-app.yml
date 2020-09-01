@@ -27,5 +27,6 @@ jobs:
     - name: Docker Push Latest
       run: docker push docker.webnori.com/akka-dot-bootapi:latest
     - name: Docker Push Version
-      run: docker push docker.webnori.com/akka-dot-bootapi:$(git describe --tags | sed s/[v]//g)
+      run: docker push docker.webnori.com/akka-dot-bootapi:$(git describe --tags | sed s/[p]//g)
+      
       
