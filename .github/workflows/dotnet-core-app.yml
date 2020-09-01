@@ -23,7 +23,7 @@ jobs:
     - name: Docker Login
       run: docker login docker.webnori.com -u ${{ secrets.DOCKER_REGISTRY_USER }} -p ${{ secrets.DOCKER_REGISTRY_PW }}
     - name: DockerBuild Version
-      run: docker build -f AkkaDotBootApi/Dockerfile --force-rm -t docker.webnori.com/akka-dot-bootapi:latest -t docker.webnori.com/akka-dot-bootapi:$(git describe --tags | sed s/[v]//g) --label "com.microsoft.created-by=visual-studio" --label "com.microsoft.visual-studio.project-name=AkkaDotBootApi" .    
+      run: docker build -f AkkaDotBootApi/Dockerfile --force-rm -t docker.webnori.com/akka-dot-bootapi:latest -t docker.webnori.com/akka-dot-bootapi:$(git describe --tags | sed s/[p]//g) --label "com.microsoft.created-by=visual-studio" --label "com.microsoft.visual-studio.project-name=AkkaDotBootApi" .    
     - name: Docker Push Latest
       run: docker push docker.webnori.com/akka-dot-bootapi:latest
     - name: Docker Push Version
