@@ -114,7 +114,6 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 ## 추가 참고자료
  - https://getakka.net/ : Akka.net Origin - 본 저장소는 Akka.net(한글)입문을 도와주며 AKKA의 고급 학습은 원문사이트에서 하는것을 권장합니다. 
- - http://wiki.webnori.com/display/AKKA : AKKA의 전반적인 컨셉
- - http://wiki.webnori.com/display/webfr/AKKA+Setting+For+NetCore : NetCoreAPI에 AKKA 탑재
- - http://wiki.webnori.com/display/webfr/GitHub+Action+With+Nuget+Package : Github에서 개인 Nuget Package 활용법 
+ - http://wiki.webnori.com/display/AKKA : AKKA의 전반적인 컨셉 (JAVA포함)
+ - http://wiki.webnori.com/display/webfr/.NET+Core+With+Akka : NetCoreAPI에서 활용 (NET core 전용)
  - https://getakka.net/articles/intro/tutorial-1.html : Top레벨 아키텍쳐
