@@ -33,7 +33,7 @@ AkkaDotModule을 닷넷코어 API에서 활용하는 샘플을 살펴볼수 있�
 
 AkkaDotModule을 API레벨에 적용하기전 다양한 테스트를 진행할수 있습니다.
 
-[APiControllers](AkkaDotBootApi/README.md)
+[AkkaDotBootApi](https://github.com/psmon/AkkaDotModule/tree/master/AkkaDotBootApi)
 
 
 # 모듈 테스트
