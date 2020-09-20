@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74C14D6F-2E82-465A-B603-2B48BBD2D646}"
 	ProjectSection(SolutionItems) = preProject
 		AKKAUSING.md = AKKAUSING.md
+		.github\workflows\dotnet-core-app.yml = .github\workflows\dotnet-core-app.yml
 		.github\workflows\dotnet-core.yml = .github\workflows\dotnet-core.yml
 		NUGET.md = NUGET.md
 		README.md = README.md
@@ -15,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAkkaDotModule", "TestAkkaDotModule\TestAkkaDotModule.csproj", "{C696446B-0F53-4210-904B-024ABDC2FE22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaDotBootApi", "AkkaDotBootApi\AkkaDotBootApi.csproj", "{FE2EF1A7-08AC-4142-BD71-BD9E9FCE09ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaDotBootApi", "AkkaDotBootApi\AkkaDotBootApi.csproj", "{FE2EF1A7-08AC-4142-BD71-BD9E9FCE09ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
