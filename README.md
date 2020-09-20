@@ -116,4 +116,16 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
  - https://getakka.net/ : Akka.net Origin - 본 저장소는 Akka.net(한글)입문을 도와주며 AKKA의 고급 학습은 원문사이트에서 하는것을 권장합니다. 
  - http://wiki.webnori.com/display/AKKA : AKKA의 전반적인 컨셉 (JAVA포함)
  - http://wiki.webnori.com/display/webfr/.NET+Core+With+Akka : NetCoreAPI에서 활용 (NET core 전용)
+ - http://wiki.webnori.com/display/webfr/Kafka+with+Stream : Kafka 활용하기
  - https://getakka.net/articles/intro/tutorial-1.html : Top레벨 아키텍쳐
+
+## 모집 광고
+
+여기서 연구되는 자료는 실제 개발팀에서 대용량 메시지를 처리하기위해
+
+KAFKA와 함께 활용되고 있으며 (JAVA or NET)
+
+대용량 메시지 처리에 관심 있으신 개발자분은 다음 링크를 통해 지원 GOGO
+
+ - https://lunasoft.co.kr/home/main/page/company/recruit
+
