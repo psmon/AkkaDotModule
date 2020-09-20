@@ -22,7 +22,7 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 
 # Nuget 경로
 
-    https://www.nuget.org/packages/AkkaDotModule.Webnori/
+Link : https://www.nuget.org/packages/AkkaDotModule.Webnori/
 
     dotnet add package AkkaDotModule.Webnori --version x.x.x
 
