@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Akka.Actor;
-using Akka.DI.Extensions.DependencyInjection;
 using AkkaDotBootApi.Actor;
 using AkkaDotModule.ActorSample;
 using AkkaDotModule.ActorUtils;
 using AkkaDotModule.Config;
+using AkkaDotModule.Kafka;
 using AkkaDotModule.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +39,9 @@ namespace AkkaDotBootApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSingleton<ConsumerSystem>();
+            services.AddSingleton<ProducerSystem>();
 
             // Akka 셋팅
             var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -150,6 +154,32 @@ namespace AkkaDotBootApi
 
                 // 배브의 작업자를 지정
                 throttleWork.Tell(new SetTarget(worker));
+
+                // KAFKA 셋팅
+                // 각 System은 싱글톤이기때문에 DI를 통해 Controller에서 참조획득가능
+                var consumerSystem = app.ApplicationServices.GetService<ConsumerSystem>();
+                var producerSystem = app.ApplicationServices.GetService<ProducerSystem>();
+
+                //소비자 : 복수개의 소비자 생성가능
+                consumerSystem.Start(new ConsumerAkkaOption()
+                {
+                    KafkaGroupId = "testGroup",
+                    KafkaUrl = "kafka:9092",
+                    RelayActor = null,          //소비되는 메시지가 지정 액터로 전달되기때문에,처리기는 액터로 구현
+                    Topics = "akka100"
+                });
+
+                //생산자 : 복수개의 생산자 생성가능
+                producerSystem.Start(new ProducerAkkaOption()
+                {
+                    KafkaUrl = "kafka:9092",
+                    ProducerName = "producer1"
+                });
+
+                List<string> messages = new List<string>();
+                //보너스 : 생산의 속도를 조절할수 있습니다.
+                int tps = 10;
+                producerSystem.SinkMessage("producer1", "akka100", messages, tps);
 
             });
         }

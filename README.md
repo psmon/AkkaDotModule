@@ -13,6 +13,7 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 
 # 주요 릴리즈 노트
 
+- 1.0.5 : Kafka Stream 지원 : 액터시스템을 이용하여 Kafka를 더 심플하고 강력하게 사용가능합니다.
 - 1.0.4 : AKKA 1.4.7 버전사용
 - 1.0.3 : 메시지 우선순위([PriorityMessageMailbox](TestAkkaDotModule/TestActors/PriorityMessageMailboxTest.cs)) 처리기 추가
 - 1.0.1 : 기본 액터([TestActors](TestAkkaDotModule/TestActors/HelloActorTest.cs)) 사용법추가
@@ -56,6 +57,8 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 - HelloActor : AKKA 입문시 처음봐야할 기본 액터 다루기 (메시지큐를 내장하기)
 - ThrottleWork : 스트림의 속도 제어가 필요할때 밸브의 잠금기능을 활용
 - PriorityMessageMailbox : 동시에 발생하는 메시지의 우선순위 조절이 필요한경우
+- ConsumerSystem : Kafka의 Consumer를 심플하고 강력하게 사용
+- ProducerSystem : Kafka의 Producer를 심플하고 강력하게 사용
 
 
 [More Detail](AKKAUSING.md)

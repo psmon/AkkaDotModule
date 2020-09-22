@@ -53,3 +53,32 @@ PriorityMessage(우선순위메시지)는 동시에 발생하는 메시지에대
     mailBoxActor.Tell(msg4);
     mailBoxActor.Tell(msg5);
 
+## KAfka Stream
+
+액터시스템을 이용하여 Kafka를 더 심플하고 강력하게 사용가능합니다.
+
+    // KAFKA 셋팅
+    // 각 System은 싱글톤이기때문에 DI를 통해 Controller에서 참조획득가능
+    var consumerSystem = app.ApplicationServices.GetService<ConsumerSystem>();
+    var producerSystem = app.ApplicationServices.GetService<ProducerSystem>();
+
+    //소비자 : 복수개의 소비자 생성가능
+    consumerSystem.Start(new ConsumerAkkaOption()
+    {
+        KafkaGroupId = "testGroup",
+        KafkaUrl = "kafka:9092",
+        RelayActor = null,          //소비되는 메시지가 지정 액터로 전달되기때문에,처리기는 액터로 구현
+        Topics = "akka100"
+    });
+
+    //생산자 : 복수개의 생산자 생성가능
+    producerSystem.Start(new ProducerAkkaOption()
+    {
+        KafkaUrl = "kafka:9092",
+        ProducerName = "producer1"
+    });
+
+    List<string> messages = new List<string>();
+    //보너스 : 생산의 속도를 조절할수 있습니다.
+    int tps = 10;
+    producerSystem.SinkMessage("producer1", "akka100", messages, tps);
