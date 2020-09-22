@@ -110,8 +110,8 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
     var batchList = new BatchList(batchDatas.ToImmutableList());
     throttleWork.Tell(batchList);
     
-    // ACTOR 구성은 TopLevel Architeture로 DI와 어울리지 않으며, DI연동시 다음을 참고
-    // DI를 완벽하게 이해하고, 더 이점이 있을때 사용할것을 권장합니다.
+    // ACTOR 구성은 TopLevel Architeture로 DI와 어울리지 않으며, 사실상 필요없습니다.
+    //DI연동시 다음을 참고 DI를 완벽하게 이해하고, 더 이점이 있을때 사용할것을 권장합니다.     
     참고 url : https://getakka.net/articles/actors/di-core.html
             
 
@@ -120,7 +120,7 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
  - http://wiki.webnori.com/display/AKKA : AKKA의 전반적인 컨셉 (JAVA포함)
  - http://wiki.webnori.com/display/webfr/.NET+Core+With+Akka : NetCoreAPI에서 활용 (NET core 전용)
  - http://wiki.webnori.com/display/webfr/Kafka+with+Stream : Kafka 활용하기
- - https://getakka.net/articles/intro/tutorial-1.html : Top레벨 아키텍쳐
+ - https://getakka.net/articles/intro/tutorial-1.html : Top레벨 아키텍쳐 : 액터접근은 DI를 사용하지 않아도 충분합니다.
 
 ## 기술지원
 
