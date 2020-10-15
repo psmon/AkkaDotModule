@@ -39,7 +39,7 @@ namespace AkkaDotModule.Kafka
         public void Start(ProducerAkkaOption producerAkkaOption)
         {            
             materializer_producer = producerSystem.Materializer();
-            producerList[producerAkkaOption.KafkaUrl] = ProducerSettings<Null, string>.Create(producerSystem, null, null)
+            producerList[producerAkkaOption.ProducerName] = ProducerSettings<Null, string>.Create(producerSystem, null, null)
                 .WithBootstrapServers(producerAkkaOption.KafkaUrl);
         }
 
