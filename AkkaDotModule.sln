@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAkkaDotModule", "TestAk
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaDotBootApi", "AkkaDotBootApi\AkkaDotBootApi.csproj", "{FE2EF1A7-08AC-4142-BD71-BD9E9FCE09ED}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose-infra", "Compose\docker-compose-infra.dcproj", "{A325C35E-28E0-43CE-B28F-516DC1568E18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{FE2EF1A7-08AC-4142-BD71-BD9E9FCE09ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE2EF1A7-08AC-4142-BD71-BD9E9FCE09ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE2EF1A7-08AC-4142-BD71-BD9E9FCE09ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A325C35E-28E0-43CE-B28F-516DC1568E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A325C35E-28E0-43CE-B28F-516DC1568E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A325C35E-28E0-43CE-B28F-516DC1568E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A325C35E-28E0-43CE-B28F-516DC1568E18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,6 +23,7 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 
 # 주요 릴리즈 노트
 
+- 1.0.6 : Kafka 도커 인프라추가및, TestAPI 샘플 추가
 - 1.0.5 : Kafka Stream 지원 : 액터시스템을 이용하여 Kafka를 더 심플하고 강력하게 사용가능합니다.
 - 1.0.4 : AKKA 1.4.7 버전사용
 - 1.0.3 : 메시지 우선순위([PriorityMessageMailbox](TestAkkaDotModule/TestActors/PriorityMessageMailboxTest.cs)) 처리기 추가
