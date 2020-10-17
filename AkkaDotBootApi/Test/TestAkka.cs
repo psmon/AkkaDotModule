@@ -13,7 +13,7 @@ namespace AkkaDotBootApi.Test
 {
     public class TestAkka
     {
-        static public void Run(IApplicationBuilder app, ActorSystem actorSystem)
+        static public void Start(IApplicationBuilder app, ActorSystem actorSystem)
         {
             // HelloActor 기본액터
             AkkaLoad.RegisterActor("helloActor" /*AkkaLoad가 인식하는 유니크명*/,

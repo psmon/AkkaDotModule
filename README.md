@@ -8,7 +8,9 @@
 
 버전업이 될때마다 유용한 커스텀 액터모델을 제공및 설명하며, 액터와 API에서 사용 샘플을 동시에 추가합니다.
 
-AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 안정성을 검증하여 안정적인 사용에 목적을 두고 있습니다.
+AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 안정성을 검증하고 다양한 메시지처리기능을
+
+안정적으로 사용하는 것에 목적이 있습니다.
 
 
 # 지원기능
@@ -23,6 +25,7 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 
 # 주요 릴리즈 노트
 
+- 1.0.7 : 실시간 배치처리기([BatchActor](TestAkkaDotModule/TestActors/BatchActorTest.cs)) 추가
 - 1.0.6 : Kafka 도커 인프라추가및, TestAPI 샘플 추가
 - 1.0.5 : Kafka Stream 지원 : 액터시스템을 이용하여 Kafka를 더 심플하고 강력하게 사용가능합니다.
 - 1.0.4 : AKKA 1.4.7 버전사용
@@ -65,11 +68,22 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 # 닷넷어플리케이션 탑재
 
-##  akka.conf / akka.Development.conf 추가
+##  akka.conf / akka.kafka.conf 추가
 
+자세한 옵션설정은 프로젝트내 conf 참고
+
+    //akka.conf
     akka {
         loggers = ["Akka.Logger.NLog.NLogLogger, Akka.Logger.NLog"]
         loglevel = debug
+    }
+
+    //akka.kafka.conf
+    akka.kafka.committer { 
+      max-batch = 1000  
+      max-interval = 10s  
+      parallelism = 100
+      delivery = WaitForAck
     }
 
 ## Startup.cs 수정
@@ -135,7 +149,3 @@ KAFKA와 함께 활용되고 있으며 (JAVA or NET)
 대용량 메시지 처리에 관심 있으신 개발자분은 다음 링크를 클릭해주세요
 
 [지원GOGO](https://lunasoft.co.kr/home/main/page/company/recruit)
-
-
-
-  

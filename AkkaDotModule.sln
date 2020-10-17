@@ -8,6 +8,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74C14D6F-2E82-465A-B603-2B48BBD2D646}"
 	ProjectSection(SolutionItems) = preProject
 		AKKAUSING.md = AKKAUSING.md
+		BATCH.md = BATCH.md
+		DOCKER.md = DOCKER.md
 		.github\workflows\dotnet-core-app.yml = .github\workflows\dotnet-core-app.yml
 		.github\workflows\dotnet-core.yml = .github\workflows\dotnet-core.yml
 		NUGET.md = NUGET.md
