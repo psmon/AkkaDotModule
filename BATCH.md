@@ -9,7 +9,6 @@
 
 이와 관련해서는 아래 아티컬을 읽어봅니다.
 
-
 [성능에대한 고찰-JAVA진영](https://homoefficio.github.io/2020/01/25/Spring-Data%EC%97%90%EC%84%9C-Batch-Insert-%EC%B5%9C%EC%A0%81%ED%99%94/)
 
 [성능에대한 고찰-NET진영(유료)](https://entityframework-extensions.net/bulk-insert)
@@ -116,9 +115,17 @@
                     }
                 });
             }
-        }   
+        }
+
+추가개선:
+- Actor를 개선하여 한번에 처리해야할 Size가 클시 분할처리혹은 OverFlow를 방지 할수 있습니다. - Akka Stream
+- 큐에 적재된 데이터의 실패에대해 영속성을 이용하여 재시도할수 있습니다. - Akka Persitence,Delivery Once
 
 
+원문링크:
+- https://doc.akka.io/docs/akka/current/fsm.html - JAVA
+- https://getakka.net/articles/actors/finite-state-machine.html - NET
+- https://getakka.net/articles/streams/buffersandworkingwithrate.html  - AkkaStream Buffers Amd working with Rate
 
 
 
