@@ -139,13 +139,7 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 이 모듈 사용을 포함 akka에 대한 기술문의 언제든 환영입니다.
 
-메일 문의 : psmon@live.co.kr
+초대문의 : https://www.facebook.com/sangmanp/
 
+Akka FaceBook Link : https://www.facebook.com/groups/784185912433992
 
-여기서 연구되는 자료는 실제 개발팀에서 대용량 메시지를 처리하기위해
-
-KAFKA와 함께 활용되고 있으며 (JAVA or NET)
-
-대용량 메시지 처리에 관심 있으신 개발자분은 다음 링크를 클릭해주세요
-
-[지원GOGO](https://lunasoft.co.kr/home/main/page/company/recruit)
