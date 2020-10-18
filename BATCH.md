@@ -36,7 +36,8 @@
 - 지정된 초만큼 받은데이터만 처리를 합니다.
 
 
-유닛테스트로 살펴본 샘플코드    
+여기서 제공되는 모듈로 심플하게 구현가능하며
+유닛 테스트로 스스로 작동을 설명하는 샘플코드를 확인할수 있습니다.
     
         public class BatchActorTest : TestKitXunit
         {
@@ -59,9 +60,10 @@
             [InlineData(3)]
             public void Test1(int collectSec)
             {
+                //배치처리기 생성
                 var batchActor = Sys.ActorOf(Props.Create(() => new BatchActor(collectSec)));
 
-                //배치저리 담당자 지정 : 배치처리를 검사하는 관찰자를 등록함
+                //배치저리 담당자 지정 : 배치처리를 수행하는 액터등록
                 IActorRef batchWriterActor = Sys.ActorOf(Props.Create(() => new TestBatchWriterActor(probe)));
                 batchActor.Tell(new SetTarget(batchWriterActor));
 
@@ -86,7 +88,7 @@
                 batchActor.Tell(new Queue("오브젝트6"));
                 batchActor.Tell(new Queue("오브젝트7"));
 
-                //강제 벌크요청
+                //강제 벌크요청(필요하면 강제 배치처리)
                 batchActor.Tell(new Flush());
 
                 //배치 항목을 검사
