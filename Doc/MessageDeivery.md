@@ -122,64 +122,84 @@ ActorC가 M1,M2를 차례로 받을것으로 기대하지만, 실제로 ActorA ,
 택배의 이동에 따른,책임의 변화및 추적등은 모두 무시하였습니다.
 
 <pre>
-namespace AkkaNetCoreTest.Actors
+namespace AkkaNetCore.Actors.Study
 {
-    public class AtLeastOnceDeliveryTest : TestKitXunit
+    public class CustomActor : ReceiveActor
     {
-        protected TestProbe probe;
+        private readonly ILoggingAdapter logger = Context.GetLogger();
  
-        protected IActorRef deliveryManActor;
+        protected int messageCnt = 0;
  
-        public AtLeastOnceDeliveryTest(ITestOutputHelper output) : base(output)
-        {           
-            Setup();
-        }
- 
-        public void Setup()
+        public CustomActor()
         {
-            //여기서 관찰자는 고객이 받은 택배를 카운팅합니다.
-            probe = this.CreateTestProbe();
- 
-            deliveryManActor = Sys.ActorOf(Props.Create(() => new DeliveryManActor(probe)));
- 
-        }
- 
-        [Theory]
-        [InlineData(3,13000)]
-        public void 일반택배는_일정한확률로_분실되며_분실시_재전송된다(int repeat, int cutoff)
-        {
-            for (int i = 0; i < repeat; i++)
+            Receive<Msg>(msg =>
             {
-                deliveryManActor.Tell("일반택배발송:" + i);
-            }
- 
-            Within(TimeSpan.FromMilliseconds(cutoff), () =>
-            {
-                for (int i = 0; i < repeat; i++)
+                messageCnt++;
+                if (!msg.Message.Contains("고급"))
                 {
-                    probe.ExpectMsg<string>(TimeSpan.FromMilliseconds(cutoff));
+                    //일반택배는 자주 분실된다.
+                    if (messageCnt % 2 == 0)
+                    {
+                        logger.Warning("택배를 찾을수 없습니다.");
+                        return;
+                    }
                 }
+ 
+                //택배를 받았기때문에 완료처리되었다.
+                logger.Debug("네, 받았습니다.");
+                Sender.Tell(new Confirm(msg.DeliveryId), Self);
             });
         }
+    }
  
-        [Theory]
-        [InlineData(100,300)]
-        public void 고급택배는_항상성공하여_빠르게모두처리된다(int repeat,int cutoff)
+    public class DeliveryManActor : AtLeastOnceDeliveryReceiveActor
+    {
+        private readonly IActorRef _probe;
+ 
+        private readonly IActorRef _destionationActor;
+ 
+        private readonly ILoggingAdapter logger = Context.GetLogger();
+ 
+        public override string PersistenceId { get; } = "persistence-id";
+ 
+        public DeliveryManActor(IActorRef probe)
         {
-            for (int i = 0; i < repeat; i++)
-            {
-                deliveryManActor.Tell("고급택배발송:" + i);
-            }
+            _probe = probe;
  
-            Within(TimeSpan.FromMilliseconds(cutoff), () =>
+            _destionationActor = Context.ActorOf(Props.Create(() => new CustomActor()));
+ 
+            Recover<MsgSent>(msgSent => Handler(msgSent));
+ 
+            Recover<MsgConfirmed>(msgConfirmed => Handler(msgConfirmed));
+ 
+            Command<string>(str =>
             {
-                for (int i = 0; i < repeat; i++)
-                {
-                    probe.ExpectMsg<string>(TimeSpan.FromMilliseconds(cutoff));
-                }
+                logger.Debug("received:" + str);
+                Persist(new MsgSent(str), Handler);
             });
+ 
+            Command<Confirm>(confirm =>
+            {
+                //메시지 받음을 확인하고, 해당 메시지를 더이상 안보낸다.
+                logger.Debug("received confirm:" + confirm.DeliveryId);
+                _probe.Tell("OK");
+                Persist(new MsgConfirmed(confirm.DeliveryId), Handler);
+            });
+ 
         }
  
+        // 목적지에 메시지보냄 - 재전송포함
+        private void Handler(MsgSent msgSent)
+        {
+            logger.Debug("택배발송되었습니다.:" + msgSent.Message);
+            Deliver(_destionationActor.Path, l => new Msg(l, msgSent.Message));
+        }
+ 
+        // 메시지가 확인됨
+        private void Handler(MsgConfirmed msgConfirmed)
+        {
+            ConfirmDelivery(msgConfirmed.DeliveryId);
+        }
     }
 }
 </pre>
