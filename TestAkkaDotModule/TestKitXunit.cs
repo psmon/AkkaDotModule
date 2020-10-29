@@ -31,6 +31,45 @@ actor.deployment {
         mailbox = my-custom-mailbox
     }
 }
+
+# 기본 스레드 풀 사용 - 동시처리 10
+fast-dispatcher {
+	type = Dispatcher
+	throughput = 10
+}
+
+# 기본 스레드 풀 사용 - 동시처리 1
+slow-dispatcher {
+	type = Dispatcher
+	throughput = 1
+}
+
+# TPL 사용
+custom-task-dispatcher {
+	type = TaskDispatcher
+	throughput = 10
+}
+
+# 스레드풀 사용전략 직접 지정
+custom-fork-join-dispatcher1 {
+	type = ForkJoinDispatcher
+	throughput = 100
+	dedicated-thread-pool {
+		thread-count = 1
+		deadlock-timeout = 3s
+		threadtype = background
+	}
+}
+
+custom-fork-join-dispatcher2 {
+	type = ForkJoinDispatcher
+	throughput = 100
+	dedicated-thread-pool {
+		thread-count = 2
+		deadlock-timeout = 3s
+		threadtype = background
+	}
+}
 ";
         public TestKitXunit(ITestOutputHelper output) : base(akkaConfig)
         {

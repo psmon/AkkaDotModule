@@ -22,6 +22,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AkkaDotBootApi", "AkkaDotBo
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose-infra", "Compose\docker-compose-infra.dcproj", "{A325C35E-28E0-43CE-B28F-516DC1568E18}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{DBE1C7C4-4B4B-48C0-8643-542EE6091F15}"
+	ProjectSection(SolutionItems) = preProject
+		Doc\Dispatcher.md = Doc\Dispatcher.md
+		Doc\MessageDeivery.md = Doc\MessageDeivery.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +53,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DBE1C7C4-4B4B-48C0-8643-542EE6091F15} = {74C14D6F-2E82-465A-B603-2B48BBD2D646}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8A418874-08BB-4BA1-8565-A15BBC1D12AE}

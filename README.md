@@ -12,6 +12,13 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 
 안정적으로 사용하는 것에 목적이 있습니다.
 
+# GitLayOut
+
+- AkkaDotBootApi : AKKA를 활용한 샘플 API
+- AkkDotModule : AKKA의 쉬운접근을 위해 모듈화
+- TestAkkaModule : AkkDotModule을 테스트하기위한 유닛테스트
+- Doc : Akka를 설명하기위한 여러가지 문서들
+
 
 # 지원기능
 
@@ -139,7 +146,7 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 이 모듈 사용을 포함 akka에 대한 기술문의 언제든 환영입니다.
 
-초대문의 : https://www.facebook.com/sangmanp/
+초대문의 : psmon@live.co.kr
 
 Akka FaceBook Link : https://www.facebook.com/groups/784185912433992
 
