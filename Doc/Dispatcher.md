@@ -145,7 +145,7 @@ FastActor그룹은 스레드2개를 사용, SlowActor그룹은 스레드 1개만
 [Sec-12] [TID-28] [delayActor_slow2] : slow2
 </pre>
 
-- Dispatcher 실험 : [DispatcherTest](../TestAkkaDotModule/TestActors/BatchActorTest.cs)
+- Dispatcher 실험 : [DispatcherTest](../TestAkkaDotModule/TestActors/DispatcherTest.cs)
 
 
 # 추가 참고자료
