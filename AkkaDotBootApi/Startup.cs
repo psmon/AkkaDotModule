@@ -42,7 +42,7 @@ namespace AkkaDotBootApi
             // Akka 셋팅
             var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var akkaConfig = AkkaLoad.Load(envName, Configuration);
-            actorSystem = ActorSystem.Create("AkkaDotBootSystem", akkaConfig);            
+            actorSystem = ActorSystem.Create("AkkaDotBootSystem", akkaConfig);
             services.AddAkka(actorSystem);
 
             // Swagger
@@ -127,7 +127,7 @@ namespace AkkaDotBootApi
 
             lifetime.ApplicationStarted.Register(() =>
             {
-                TestAkka.Run(app, actorSystem);
+                TestAkka.Start(app, actorSystem);
             });
         }
     }

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using Akka.Actor;
+﻿using Akka.Actor;
 using AkkaDotModule.Config;
 using AkkaDotModule.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace AkkaDotBootApi.Controllers
 {

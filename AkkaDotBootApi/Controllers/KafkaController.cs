@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AkkaDotModule.Kafka;
-using Microsoft.AspNetCore.Http;
+﻿using AkkaDotModule.Kafka;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace AkkaDotBootApi.Controllers
 {
@@ -26,7 +22,7 @@ namespace AkkaDotBootApi.Controllers
         /// testTopic : akka100
         /// </summary>
         [HttpGet("HelloActor-Tell")]
-        public int Kafka_ProducerMessage(int count,int tps)
+        public int Kafka_ProducerMessage(int count, int tps)
         {
             List<string> messages = new List<string>();
             for (int i = 0; i < count; i++)

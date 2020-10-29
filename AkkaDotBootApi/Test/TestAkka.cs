@@ -61,7 +61,7 @@ namespace AkkaDotBootApi.Test
             });
 
             List<string> messages = new List<string>();
-            for(int i=0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 messages.Add($"message-{i}");
             }
