@@ -27,6 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{DBE1C7C4-4B4
 	ProjectSection(SolutionItems) = preProject
 		Doc\Dispatcher.md = Doc\Dispatcher.md
 		Doc\MessageDeivery.md = Doc\MessageDeivery.md
+		Doc\Monitoring.md = Doc\Monitoring.md
 	EndProjectSection
 EndProject
 Global
