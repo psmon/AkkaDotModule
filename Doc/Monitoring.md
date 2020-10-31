@@ -148,6 +148,7 @@ Context.IncrementCounter 와 같은 이벤트 카운팅이 가능하며, 지정�
 성능 보고기능을 탑재하였다고 우려할만한 큰 성능저하는 일어나지 않습니다. (미비한 수준으로 영향을 끼치기는 합니다.)
 대용량의 카운팅 측정을 위해 로깅을 활용 하는 방식보다는 훨씬 경제적입니다.
 
+기본 액터가 가진 Context를 통해 이용가능하며 기본 액터에대한 설명은 생략합니다.
 <pre>
 // 사용부 : 10만 이벤트 발생
 for (int i = 0; i < 100000; i++)
@@ -156,7 +157,7 @@ for (int i = 0; i < 100000; i++)
 // 구현부 : 카운팅 이벤트를 발생할수 있음
 ReceiveAsync<string>(async msg =>
 {
-    int auto_delay = random.Next(1, 100);  //1 이벤트를 임의로 지연 ( 특정 도메인기능 수행한다고 가정 )
+    int auto_delay = random.Next(1, 100);  //이벤트가 불규칙 대량 작동된다고 가정
     await Task.Delay(auto_delay);
     Context.IncrementCounter("akka.custom.metric1");  // 1단위로 증가
     Context.IncrementCounter("akka.custom.metric2",100); // 특정 단위로 증가(만약 100개 벌크 처리받았다고 하면 100카운팅 증가를 한번에할수 있습니다.)
@@ -167,10 +168,13 @@ ReceiveAsync<string>(async msg =>
 
 이렇게 수집된 성능 매트릭정보는, 성능 모니터링 툴에의해 대시보드화가 가능합니다.
 
+여기서 설명하는 자료가 작동하는지 확인하기 위해 DataDog을 이용하였습니다.
+
+
 ![](datadog-actor.png)
 
 
 참고 링크 :
-- http://wiki.webnori.com/display/webfr/Real+time+performance+counters
-- https://github.com/petabridge/akka-monitoring
-- https://www.44bits.io/ko/keyword/datadog
+- Akka.net 모니터링 모듈 : https://github.com/petabridge/akka-monitoring
+- Akka.net 모니터링 사용기 :  http://wiki.webnori.com/display/webfr/Real+time+performance+counters
+- 데이터독: https://www.44bits.io/ko/keyword/datadog
