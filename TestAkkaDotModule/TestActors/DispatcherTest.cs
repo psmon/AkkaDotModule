@@ -1,35 +1,12 @@
 ﻿using Akka.Actor;
-using Akka.Event;
 using AkkaNetCoreTest;
-using System;
-using System.Threading;
 using System.Threading.Tasks;
+using TestAkkaDotModule.ActorSample;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace TestAkkaDotModule.TestActors
 {
-    public class DelayActor : ReceiveActor
-    {
-        private readonly ILoggingAdapter logger = Context.GetLogger();
-
-        private string MyName { get; set; }
-        
-        public DelayActor(string name)
-        {
-            MyName = name;
-            ReceiveAsync<string>(async message =>
-            {                
-                Thread thread = Thread.CurrentThread;
-                string currentTime = DateTime.Now.Second.ToString();
-                string inComeMessage = $"[Sec-{currentTime}] [TID-{thread.ManagedThreadId}] [{MyName}] : {message}";
-                Console.WriteLine($"{inComeMessage}");
-                //지연테스트를 위한 임의 블락처리
-                Task.Delay(1500).Wait();
-            });
-        }
-    }
-
     public class DispatcherTest : TestKitXunit
     {
         public DispatcherTest(ITestOutputHelper output) : base(output)
@@ -45,7 +22,9 @@ namespace TestAkkaDotModule.TestActors
         [InlineData(20)]
         public void Test1(int waitTimeSec)
         {
-            return; //20초정도 소요되는 유닛테스트로, 배포시 자동유닛 테스트함으로 작동봉인 조치..
+            return; 
+            //20초정도 소요되는 유닛테스트로, 배포시 자동유닛 테스트함으로 작동봉인 조치..
+            //로컬에서만 돌릴것...GitHub 빌드비용 나감~~
 
             var delayActor_fast1 = Sys.ActorOf(Props.Create(() => new DelayActor("delayActor_fast1"))
                 .WithDispatcher("custom-fork-join-dispatcher2")
