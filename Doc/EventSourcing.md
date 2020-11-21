@@ -78,7 +78,7 @@ CRUD는 일반적으로 어떤 로직을 처리하고 그 결과값만을 저장
 
 위 컨셉이 이해되면 다음 구현부를 사용하여 이벤트 소싱을 작동시킬수 있습니다.
 
-- 이벤트 소싱구현 : https://getakka.net/articles/persistence/event-sourcing.htm
+- 이벤트 소싱구현 : https://getakka.net/articles/persistence/event-sourcing.html
 - 스냅샷 구현: https://getakka.net/articles/persistence/snapshots.html
 
 
