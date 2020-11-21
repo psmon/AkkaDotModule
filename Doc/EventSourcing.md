@@ -165,7 +165,90 @@ Akka의 PersistentActor는 이벤트 소싱구현을 위한 기능을제공해�
 
 - 이벤트 소싱구현 : https://getakka.net/articles/persistence/event-sourcing.html
 - 스냅샷 구현: https://getakka.net/articles/persistence/snapshots.html
+- 작동확인 : http://wiki.webnori.com/display/webfr/EventSourcing
 
+
+# 이벤트의 복구
+
+이벤트 소싱에서, 이벤트자체가 서비스 기능으로 이용됨으로 이벤트 하나하나가 중요합니다.
+CRUD가 무결성유지를 위해 제약에 공을 들인다고 하면, 이벤트 소싱은 이벤트 자체의 유실을 막기위한
+이벤트 영속성에 조금더 공을들이게 됩니다. 
+그리고 이것은 단일지점 저장소에 의존하지 않으며, 메모리/로컬저장소/원격저장소등
+사용자가 어플리케이션에서 도메인구현을 설계하여 대용량 분산처리가 될수 있도록 합니다.
+
+이벤트 소싱에서는 이벤트와 로그가 이분화되어있는것이 아닌 이벤트가 곧 로그가 될수 있습니다.
+
+## 유닛테스트로 살펴본 이벤트 복구
+
+```c#
+using Akka.Actor;
+using Akka.TestKit;
+using AkkaNetCoreTest;
+using System;
+using System.Threading.Tasks;
+using Xunit;
+using Xunit.Abstractions;
+
+namespace TestAkkaDotModule.ActorSample
+{
+    public class PersistentActorTest : TestKitXunit
+    {
+        protected TestProbe probe;
+
+        protected IActorRef persistentActor;
+
+        public PersistentActorTest(ITestOutputHelper output) : base(output)
+        {
+            Setup();
+        }
+
+        public void Setup()
+        {
+            //여기서 관찰자는 장바구니에 담긴 상품수를 검사할수 있습니다.
+            probe = this.CreateTestProbe();
+
+            persistentActor = Sys.ActorOf(Props.Create(() => new MyPersistentActor(probe)), "persistentActor");
+        }
+
+        //이벤트 소싱 테스트
+        [Theory(DisplayName = "이벤트소싱-이벤트는 상태화되고 재생되고 복구되어야한다")]
+        [InlineData(5)]
+        public void Test1(int cutoffSec)
+        {
+            // usage
+            int expectedCount = 2;
+
+            //선택 장애 장바구니 이벤트
+            Cmd cmd1 = new Cmd("장바구니를 물건을 담음+1");
+            Cmd cmd2 = new Cmd("장바구니에 물건을 뺌-0");
+            Cmd cmd3 = new Cmd("장바구니에 물건을 담음+1");
+            Cmd cmd4 = new Cmd("장바구니에 물건을 담음+2");
+
+            Within(TimeSpan.FromSeconds(cutoffSec), () =>
+            {
+                persistentActor.Tell(cmd1);
+                persistentActor.Tell(cmd2);
+                persistentActor.Tell(cmd3);
+                persistentActor.Tell(cmd4);
+                persistentActor.Tell("print"); //현재까지 액터가 가진 이벤트리스트를 재생합니다.
+                Assert.Equal(expectedCount, probe.ExpectMsg<int>());
+
+                //액터를 강제로 죽입니다.
+                persistentActor.Tell(Kill.Instance);
+                Task.Delay(500).Wait();
+
+                //시스템 셧다운후,재시작 시나리오
+                //액터를 다시생성하여, 액터가 가진 이벤트가 복구되는지 확인합니다.
+                persistentActor = Sys.ActorOf(Props.Create(() => new MyPersistentActor(probe)), "persistentActor");
+                persistentActor.Tell("print");
+                Assert.Equal(expectedCount, probe.ExpectMsg<int>());
+
+            });
+        }
+    }
+}
+```
+- [PersistentActorTest](https://github.com/psmon/AkkaForNetCore/blob/master/AkkaNetCore/Actors/Study/PersistentActor.cs)
 
 ## Storage Plugins
 
