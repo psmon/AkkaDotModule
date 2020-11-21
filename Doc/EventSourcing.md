@@ -5,7 +5,6 @@
 실천형 아키텍트를 위해 AKKA.net를 통해 실행가능한 코드 샘플도 살펴보겠습니다.
 
 
-
 # CRUD와 차이점
 
 이벤트 소싱을 이해하기위해, 전통적인 CRUD(Create Read Update Delete)방식에 대해 이해가 필요합니다.
@@ -22,7 +21,7 @@ CRUD는 일반적으로 어떤 로직을 처리하고 그 결과값만을 저장
 
 하지만 비즈니스모델은 점점 변화하며 계속 생겨나게됩니다.
 처음 설계한 제약과 규칙을 성능과 함께 계속 유지변경해야하며
-다음과 같은 문제가 생길수 있을때 이벤트 소싱(또는 CQRS)을 고려해볼수 있습니다.
+다음과 같은 문제가 생길수 있을때 이벤트 소싱(또는 DDD+CQRS)을 고려해볼수 있습니다.
 
 - 무결성을 유지하면서 결과를 계속 유지하는것은 단일지점 성능비용이 듭니다.
 - 분석팀에서 사용자가 바나나를 제거했다란 사실을 찾을수가 없습니다.
@@ -48,16 +47,23 @@ CRUD는 일반적으로 어떤 로직을 처리하고 그 결과값만을 저장
 
 ![](e-playevent.png)
 
-이벤트를 생성하는 팀과 그것을 활용하여 이용하는팀은 다를수 있으며
+이벤트를 받아 명령을 생성하고 저장하는 팀과 그것을 활용하여 이용하는팀은 다를수 있으며
 
-이벤트 소싱은 MSA관점에서도 적합합니다. 그리고 요즘 대세인 KAFKA의 생산과 소비의 분리라는 컨셉과도
+MSA 책임분리 단위에도 적합하며, 요즘 대세인 KAFKA의 생산과 소비의 분리라는 컨셉과도 유사하며
 
-유사하기때문에 KAFKA를 활용하여, 단순한 대용량 메시지 전송이 아닌 대용량 서비스를 설계할수도 있습니다.
+대용량 메시지 전송이만이 아닌 대용량 서비스를 설계할수도 있습니다.
 
-또한 스트림을 소비하는 개발팀에서는, 이벤트재생을 통해 다양한 기능을 독립적으로 만들어 낼수 있습니다.
+
+간략하게 활용요소를 재요약하면
+
+- 이벤트 소싱 : 지금까지 설명한 메시징 개발 패턴
+- KAFKA : 이때 이용할수 있는 원격전송 메시징 시스템
+- AKKA-EventSourcing : 이벤트 소싱 구현을 도와주는 어느정도 추상화된 개발 툴킷
+
+
+이벤트 스트림을 소비하는 개발팀에서는, 이벤트 재생을 통해 다양한 기능을 독립적으로 만들어 낼수 있습니다.
 
 이벤트 소싱은 CQRS의 일부로 이러한 명령과 조회 책임의 분리는 정확하게는 CQRS에서 이야기하고 있는내용입니다.
-
 
     영역이 약간 다르지만, 쉬운예로 스타크래프트의 리플레이 재생기를 통해 이해하면 쉬울것같습니다.
 
@@ -72,6 +78,21 @@ CRUD는 일반적으로 어떤 로직을 처리하고 그 결과값만을 저장
     또한 이것은 리마스터를 통해 더 좋은 그래픽으로 재생될수 있습니다.
 
 
+## CQRS 살펴보기
+
+CQRS(명령 및 쿼리 책임 분리)는 Greg Young이 소개하고 Udi Dahan 및 다른 사용자가 전적으로 지원했습니다.
+
+EventSourcing는 CQRS에서 파생된 개발패턴이며
+
+이것에 대한 DDD내에서 활용하는 구현체는 Implementing Domain-Driven Design(반버논저서)에서 자세하게 설명되어 있습니다.
+
+여기서의 설명보다는 아래 링크를 참고합니다.
+
+Link : 
+- [CQRS+DDD](https://docs.microsoft.com/ko-kr/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/apply-simplified-microservice-cqrs-ddd-patterns)
+- [Greg-young](https://dddeurope.com/2017/speakers/greg-young/)
+
+
 # 이벤트 스냅샷
 
 ![](e-snapshot.png)
@@ -80,16 +101,83 @@ CRUD는 일반적으로 어떤 로직을 처리하고 그 결과값만을 저장
 이에 대한 보완으로 중간처리를 집계하는 스냅샷을 사용하게 됩니다.
 스냅샷이후 부터재생하여 최종결과를 빠르게 재생할수 있습니다.
 
-# 구현부
+
+# 구현부 - AkkaPersitentActor 활용
 
 위 컨셉이 이해되면 다음 구현부를 사용하여 이벤트 소싱을 작동시킬수 있습니다.
 
+Akka의 PersistentActor는 이벤트 소싱구현을 위한 기능을제공해줍니다.
+
+```c#
+    public class PersistentActor : UntypedPersistentActor
+    {
+        private ExampleState _state = new ExampleState();
+ 
+        private void UpdateState(Evt evt)
+        {
+            _state = _state.Updated(evt);
+        }
+ 
+        private int NumEvents => _state.Size;
+ 
+        public override Recovery Recovery => new Recovery(fromSnapshot: SnapshotSelectionCriteria.None);
+        protected override void OnRecover(object message)
+        {
+            switch (message)
+            {
+                case Evt evt:
+                    UpdateState(evt);
+                    break;
+                case SnapshotOffer snapshot when snapshot.Snapshot is ExampleState:
+                _state = (ExampleState)snapshot.Snapshot;
+                    break;
+            }
+        }
+ 
+        protected override void OnCommand(object message)
+        {
+            switch (message)
+            {
+                case Cmd cmd:
+                    Persist(new Evt($"{cmd.Data}-{NumEvents}"), UpdateState);
+                    Persist(new Evt($"{cmd.Data}-{NumEvents + 1}"), evt =>   //이코드는 복제와 추가행동 전략과 관련있습니다.
+                    {
+                        UpdateState(evt);
+                        Context.System.EventStream.Publish(evt);
+                    });
+                    break;
+                case "snap":
+                    SaveSnapshot(_state);
+                    break;
+                case "print":
+                    Console.WriteLine("Try print");
+                    Console.WriteLine(_state);
+                    break;
+                case Shutdown down:
+                    Context.Stop(Self);
+                    break;
+            }
+        }
+ 
+        public override string PersistenceId { get; } = "sample-id-1";  //영속성을 위한 고유한 아이디값을 가집니다.
+    }
+ ```
+
 - 이벤트 소싱구현 : https://getakka.net/articles/persistence/event-sourcing.html
 - 스냅샷 구현: https://getakka.net/articles/persistence/snapshots.html
+
+
+## Storage Plugins
+
+AKKA의 Persitence는 실시간 메시지를 영속화 하려는 스택중에하나이며
+아무런 설정이 없으면 기본으로 인-메모리에서 작동합니다.
+메모리는 어플리케이션 종료시 휘발됨으로 
+안정적인 이벤트 소싱과/스냅샷 구현을 위해서 메모리가 아닌 Staorage를 선택하는것이 권장됩니다.
+
+- [Storage-plugins](https://getakka.net/articles/persistence/storage-plugins.html)
 
 
 # 기타참고자료
 - KAFKA with CQRS : https://www.confluent.io/blog/event-sourcing-cqrs-stream-processing-apache-kafka-whats-connection/
 - CQRS : https://justhackem.wordpress.com/2016/09/17/what-is-cqrs/
 - MSDN : https://docs.microsoft.com/ko-kr/azure/architecture/patterns/cqrs
-
