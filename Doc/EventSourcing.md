@@ -84,9 +84,9 @@ CQRS(명령 및 쿼리 책임 분리)는 Greg Young이 소개하고 Udi Dahan �
 
 EventSourcing는 CQRS에서 파생된 개발패턴이며
 
-이것에 대한 DDD내에서 활용하는 구현체는 Implementing Domain-Driven Design(반버논저서)에서 자세하게 설명되어 있습니다.
+이것에 대한 DDD내에서 활용하는 구현체는 Implementing Domain-Driven Design(반버논저서)에서 자세하게 구현되어 있습니다.
 
-여기서의 설명보다는 아래 링크를 참고합니다.
+CQRS는 다음링크를 참고합니다
 
 Link : 
 - [CQRS+DDD](https://docs.microsoft.com/ko-kr/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/apply-simplified-microservice-cqrs-ddd-patterns)
