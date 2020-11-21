@@ -85,5 +85,5 @@ CRUD는 일반적으로 어떤 로직을 처리하고 그 결과값만을 저장
 # 기타참고자료
 - KAFKA with CQRS : https://www.confluent.io/blog/event-sourcing-cqrs-stream-processing-apache-kafka-whats-connection/
 - CQRS : https://justhackem.wordpress.com/2016/09/17/what-is-cqrs/
-
+- MSDN : https://docs.microsoft.com/ko-kr/azure/architecture/patterns/cqrs
 
