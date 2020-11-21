@@ -171,7 +171,7 @@ Akka의 PersistentActor는 이벤트 소싱구현을 위한 기능을제공해�
 # 이벤트의 복구
 
 이벤트 소싱에서, 이벤트자체가 서비스 기능으로 이용됨으로 이벤트 하나하나가 중요합니다.
-CRUD가 무결성유지를 위해 제약에 공을 들인다고 하면, 이벤트 소싱은 이벤트 자체의 유실을 막기위한
+CRUD가 데이터 무결성유지를 위해 제약에 공을 들인다고 하면, 이벤트 소싱은 이벤트 자체의 유실을 막기위한
 이벤트 영속성에 조금더 공을들이게 됩니다. 
 그리고 이것은 단일지점 저장소에 의존하지 않으며, 메모리/로컬저장소/원격저장소등
 사용자가 어플리케이션에서 도메인구현을 설계하여 대용량 분산처리가 될수 있도록 합니다.
@@ -259,8 +259,24 @@ AKKA의 Persitence는 실시간 메시지를 영속화 하려는 스택중에하
 
 - [Storage-plugins](https://getakka.net/articles/persistence/storage-plugins.html)
 
+## 요약
 
-# 기타참고자료
+![](persitence-list.png)
+
+이벤트 소싱포함 CQRS를 이용할수있는 툴킷 3종셋트의 요소및 용어가 유사합니다.
+이벤트 소싱을 활용할수있는 툴킷자체는 동일컨셉으로 여러진영에 이미 준비됨을 의미하며
+
+
+CRUD에 적합한것을 CQRS로의 무조건적인 변환을 요구하지 않습니다.
+대용량 트래픽을 처리할수있는 도구가 하나더 생겨난것은 환영할만 일이며
+이것이 우리진영에 대세가될수 없다하더라도 학습할만한 가치가 있는것은 분명합니다.
+
+
+
+# 참고자료
 - KAFKA with CQRS : https://www.confluent.io/blog/event-sourcing-cqrs-stream-processing-apache-kafka-whats-connection/
 - CQRS : https://justhackem.wordpress.com/2016/09/17/what-is-cqrs/
 - MSDN : https://docs.microsoft.com/ko-kr/azure/architecture/patterns/cqrs
+- EventSourcing with SpringBoot : https://www.baeldung.com/cqrs-event-sourcing-java
+- EventSourcing : https://www.baeldung.com/cqrs-event-sourced-architecture-resources
+
