@@ -29,7 +29,9 @@ namespace AkkaDotModule.Kafka
 
         public string Topics { get; set; }
 
-        public KafkaSecurityOption SucuritOption { get; set; }
+        public AutoOffsetReset AutoOffsetReset { get;set;}
+
+        public KafkaSecurityOption SecurityOption { get; set; }
     }
 
     public class ProducerAkkaOption
@@ -38,7 +40,7 @@ namespace AkkaDotModule.Kafka
 
         public string ProducerName { get; set; }
 
-        public KafkaSecurityOption SecuritOption { get; set; }
+        public KafkaSecurityOption SecurityOption { get; set; }
     }
 
 

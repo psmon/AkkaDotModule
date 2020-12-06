@@ -22,16 +22,16 @@ namespace AkkaDotModule.ActorUtils.Confluent
             //Actor Init
             sentMessageCount = 0;
 
-            if (producerAkkaOption.SecuritOption != null)
+            if (producerAkkaOption.SecurityOption != null)
             {
                 producerConfig = new ProducerConfig()
                 {
                     BootstrapServers = producerAkkaOption.BootstrapServers,
-                    SecurityProtocol = producerAkkaOption.SecuritOption.SecurityProtocol,
-                    SaslMechanism = producerAkkaOption.SecuritOption.SaslMechanism,
-                    SaslUsername = producerAkkaOption.SecuritOption.SaslUsername,
-                    SaslPassword = producerAkkaOption.SecuritOption.SaslPassword,
-                    SslCaLocation = producerAkkaOption.SecuritOption.SslCaLocation,
+                    SecurityProtocol = producerAkkaOption.SecurityOption.SecurityProtocol,
+                    SaslMechanism = producerAkkaOption.SecurityOption.SaslMechanism,
+                    SaslUsername = producerAkkaOption.SecurityOption.SaslUsername,
+                    SaslPassword = producerAkkaOption.SecurityOption.SaslPassword,
+                    SslCaLocation = producerAkkaOption.SecurityOption.SslCaLocation,
                     //Debug = "security,broker,protocol"        //Uncomment for librdkafka debugging information
                 };
 

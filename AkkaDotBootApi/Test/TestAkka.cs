@@ -49,13 +49,13 @@ namespace AkkaDotBootApi.Test
             //##### 보안연결이 지원하기때문에 Saas형태의 Kafka에 보안연결이 가능합니다.
             //##### 커스텀한 액터를 생성하여,AkkaStream을 이해하고 직접 연결할수 있을때 유용합니다.
             //##################################################################
+            
             //ProducerActor
-
             var producerAkkaOption = new ProducerAkkaOption()
             {
                 BootstrapServers = "webnori-kafka.servicebus.windows.net:9093",
                 ProducerName = "webnori-kafka",
-                SecuritOption = new KafkaSecurityOption()
+                SecurityOption = new KafkaSecurityOption()
                 {
                     SecurityProtocol = SecurityProtocol.SaslSsl,
                     SaslMechanism = SaslMechanism.Plain,
@@ -66,7 +66,6 @@ namespace AkkaDotBootApi.Test
             };
 
             string producerActorName = "producerActor";
-
             var producerActor= AkkaLoad.RegisterActor(producerActorName /*AkkaLoad가 인식하는 유니크명*/,
                 actorSystem.ActorOf(Props.Create(() => 
                     new ProducerActor(producerAkkaOption)),
@@ -82,6 +81,33 @@ namespace AkkaDotBootApi.Test
                 }
             });
 
+            //ConsumerActor
+            var consumerAkkaOption = new ConsumerAkkaOption()
+            {
+                BootstrapServers = "webnori-kafka.servicebus.windows.net:9093",
+                Topics = "akka100",
+                AutoOffsetReset = AutoOffsetReset.Earliest,
+                KafkaGroupId = "akakTestGroup",
+                RelayActor = null,  //작업자 액터를 연결하면, 소비메시지가 작업자에게 전달된다 ( 컨슘기능과 작업자 기능의 분리)
+                SecurityOption = new KafkaSecurityOption()
+                {
+                    SecurityProtocol = SecurityProtocol.SaslSsl,
+                    SaslMechanism = SaslMechanism.Plain,
+                    SaslUsername = "$ConnectionString",
+                    SaslPassword = "Endpoint=sb://webnori-kafka.servicebus.windows.net/;SharedAccessKeyName=kafka-client;SharedAccessKey=PfL0qRUm50AXZHRXLiVfnatIRI3OqAh+dT6Owsqrd2M=",
+                    SslCaLocation = "./cacert.pem"
+                }
+            };
+
+            string consumerActorName = "consumerActor";
+            var consumerActor = AkkaLoad.RegisterActor(consumerActorName /*AkkaLoad가 인식하는 유니크명*/,
+                actorSystem.ActorOf(Props.Create(() =>
+                    new ConsumerActor(consumerAkkaOption)),
+                    consumerActorName /*AKKA가 인식하는 Path명*/
+            ));
+
+            //컨슈머를 작동시킨다.
+            consumerActor.Tell(new ConsumerStart());
 
             //##################################################################
             //##### Akka.Streams.Kafka(의존:Confluent.Kafka) 을 사용하는 모드로, Security(SSL)이 아직 지원되지 않습니다.

@@ -36,9 +36,9 @@ namespace AkkaDotModule.Kafka
             var producer = ProducerSettings<Null, string>.Create(producerSystem, null, null)
                 .WithBootstrapServers(producerAkkaOption.BootstrapServers);                
 
-            if(producerAkkaOption.SecuritOption != null)
+            if(producerAkkaOption.SecurityOption != null)
             {
-                KafkaSecurityOption kafkaSecurityOption = producerAkkaOption.SecuritOption;
+                KafkaSecurityOption kafkaSecurityOption = producerAkkaOption.SecurityOption;
                 /*
                 producer = producer
                     .WithProperty("security.protocol", kafkaSecurityOption.SecurityProtocol)

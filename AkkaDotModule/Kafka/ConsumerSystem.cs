@@ -28,9 +28,9 @@ namespace AkkaDotModule.Kafka
                 .WithBootstrapServers(consumerActorOption.BootstrapServers)
                 .WithGroupId(consumerActorOption.KafkaGroupId);
 
-            if(consumerActorOption.SucuritOption != null)
+            if(consumerActorOption.SecurityOption != null)
             {
-                KafkaSecurityOption kafkaSecurityOption = consumerActorOption.SucuritOption;
+                KafkaSecurityOption kafkaSecurityOption = consumerActorOption.SecurityOption;
             }
 
 

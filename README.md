@@ -32,7 +32,8 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 
 # 주요 릴리즈 노트
 
-- 1.0.8 : Kafka ProducerActor 추가 (목적:Kafka SSL모드로 쉽게 작동하기 위한 신규 모듈)
+- 1.0.9 : Kafka ConsumerActor 추가 (목적:Kafka SSL모드지원) - [사용법](AkkaDotBootApi/Test/TestAkka.cs)
+- 1.0.8 : Kafka ProducerActor 추가 (목적:Kafka SSL모드지원) - [Link](http://wiki.webnori.com/display/webfr/Auzere+EventHub%28KAFKA%29+With+Actor)
 - 1.0.7 : 실시간 배치처리기([BatchActor](TestAkkaDotModule/TestActors/BatchActorTest.cs)) 추가
 - 1.0.6 : Kafka 도커 인프라추가및, TestAPI 샘플 추가
 - 1.0.5 : Kafka Stream 지원 : 액터시스템을 이용하여 Kafka를 더 심플하고 강력하게 사용가능합니다.
