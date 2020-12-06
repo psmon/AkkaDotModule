@@ -32,6 +32,7 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 
 # 주요 릴리즈 노트
 
+- 1.0.8 : Kafka ProducerActor 추가 (목적:Kafka SSL모드로 쉽게 작동하기 위한 신규 모듈)
 - 1.0.7 : 실시간 배치처리기([BatchActor](TestAkkaDotModule/TestActors/BatchActorTest.cs)) 추가
 - 1.0.6 : Kafka 도커 인프라추가및, TestAPI 샘플 추가
 - 1.0.5 : Kafka Stream 지원 : 액터시스템을 이용하여 Kafka를 더 심플하고 강력하게 사용가능합니다.
@@ -141,6 +142,8 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
  - http://wiki.webnori.com/display/webfr/.NET+Core+With+Akka : NetCoreAPI에서 활용 (NET core 전용)
  - http://wiki.webnori.com/display/webfr/Kafka+with+Stream : Kafka 활용하기
  - https://getakka.net/articles/intro/tutorial-1.html : Top레벨 아키텍쳐 : 액터접근은 DI를 사용하지 않아도 충분합니다.
+ - https://github.com/Azure/azure-event-hubs-for-kafka : Azure EventHub에 Kafka연결하기
+ - https://github.com/confluentinc/confluent-kafka-dotnet : 닷넷 코어로 Kafka연결하기
 
 ## 기술지원
 

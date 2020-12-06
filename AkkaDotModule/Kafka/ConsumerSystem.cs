@@ -9,17 +9,6 @@ using Confluent.Kafka;
 
 namespace AkkaDotModule.Kafka
 {
-    public class ConsumerAkkaOption
-    {
-        public string KafkaUrl { get; set; }
-
-        public string KafkaGroupId { get; set; }
-
-        public IActorRef RelayActor { get; set; }
-
-        public string Topics { get; set; }
-    }
-
     public class ConsumerSystem
     {        
         private ActorSystem consumerSystem;
@@ -36,8 +25,14 @@ namespace AkkaDotModule.Kafka
             IAutoSubscription makeshop_neworder = Subscriptions.Topics(consumerActorOption.Topics);
 
             var consumerSettings = ConsumerSettings<Null, string>.Create(consumerSystem, null, null)
-                .WithBootstrapServers(consumerActorOption.KafkaUrl)
+                .WithBootstrapServers(consumerActorOption.BootstrapServers)
                 .WithGroupId(consumerActorOption.KafkaGroupId);
+
+            if(consumerActorOption.SucuritOption != null)
+            {
+                KafkaSecurityOption kafkaSecurityOption = consumerActorOption.SucuritOption;
+            }
+
 
             var materializer_consumer = consumerSystem.Materializer();
 

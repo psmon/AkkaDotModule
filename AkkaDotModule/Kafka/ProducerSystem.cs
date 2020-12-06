@@ -14,13 +14,6 @@ using Confluent.Kafka;
 
 namespace AkkaDotModule.Kafka
 {
-    public class ProducerAkkaOption
-    {
-        public string KafkaUrl { get; set; }
-
-        public string ProducerName { get; set; }
-    }
-
     public class ProducerSystem
     {
         private ActorSystem producerSystem;        
@@ -39,8 +32,25 @@ namespace AkkaDotModule.Kafka
         public void Start(ProducerAkkaOption producerAkkaOption)
         {            
             materializer_producer = producerSystem.Materializer();
-            producerList[producerAkkaOption.ProducerName] = ProducerSettings<Null, string>.Create(producerSystem, null, null)
-                .WithBootstrapServers(producerAkkaOption.KafkaUrl);
+
+            var producer = ProducerSettings<Null, string>.Create(producerSystem, null, null)
+                .WithBootstrapServers(producerAkkaOption.BootstrapServers);                
+
+            if(producerAkkaOption.SecuritOption != null)
+            {
+                KafkaSecurityOption kafkaSecurityOption = producerAkkaOption.SecuritOption;
+                /*
+                producer = producer
+                    .WithProperty("security.protocol", kafkaSecurityOption.SecurityProtocol)
+                    .WithProperty("sasl.mechanism", kafkaSecurityOption.SaslMechanism)
+                    .WithProperty("sasl.username", kafkaSecurityOption.SaslUsername)
+                    .WithProperty("sasl.password", kafkaSecurityOption.SaslPassword);
+                    //.WithProperty("kafka-clients.ssl.calocation", kafkaSecurityOption.SslCaLocation);
+                */
+            };
+
+            producerList[producerAkkaOption.ProducerName] = producer;
+
         }
 
         public void SinkMessage(string producerName, string topic,List<string> message,int tps)

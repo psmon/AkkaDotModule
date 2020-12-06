@@ -2,9 +2,11 @@
 using AkkaDotBootApi.Actor;
 using AkkaDotModule.ActorSample;
 using AkkaDotModule.ActorUtils;
+using AkkaDotModule.ActorUtils.Confluent;
 using AkkaDotModule.Config;
 using AkkaDotModule.Kafka;
 using AkkaDotModule.Models;
+using Confluent.Kafka;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -39,7 +41,55 @@ namespace AkkaDotBootApi.Test
             // 배브의 작업자를 지정
             throttleWork.Tell(new SetTarget(worker));
 
-            // KAFKA 셋팅
+
+            // 기호에따라 사용방식이 약간 다른 KAFKA를 선택할수 있습니다.
+
+            //##################################################################
+            //##### Confluent.Kafka를 Akka액터 모드로 연결한 모드로
+            //##### 보안연결이 지원하기때문에 Saas형태의 Kafka에 보안연결이 가능합니다.
+            //##### 커스텀한 액터를 생성하여,AkkaStream을 이해하고 직접 연결할수 있을때 유용합니다.
+            //##################################################################
+            //ProducerActor
+
+            var producerAkkaOption = new ProducerAkkaOption()
+            {
+                BootstrapServers = "webnori-kafka.servicebus.windows.net:9093",
+                ProducerName = "webnori-kafka",
+                SecuritOption = new KafkaSecurityOption()
+                {
+                    SecurityProtocol = SecurityProtocol.SaslSsl,
+                    SaslMechanism = SaslMechanism.Plain,
+                    SaslUsername = "$ConnectionString",
+                    SaslPassword = "Endpoint=sb://webnori-kafka.servicebus.windows.net/;SharedAccessKeyName=kafka-client;SharedAccessKey=PfL0qRUm50AXZHRXLiVfnatIRI3OqAh+dT6Owsqrd2M=",
+                    SslCaLocation = "./cacert.pem"
+                }
+            };
+
+            string producerActorName = "producerActor";
+
+            var producerActor= AkkaLoad.RegisterActor(producerActorName /*AkkaLoad가 인식하는 유니크명*/,
+                actorSystem.ActorOf(Props.Create(() => 
+                    new ProducerActor(producerAkkaOption)),
+                    producerActorName /*AKKA가 인식하는 Path명*/
+            ));
+
+            producerActor.Tell(new BatchData()
+            {
+                Data = new KafkaTextMessage()
+                {
+                    Topic = "akka100",
+                    Message = "testData"
+                }
+            });
+
+
+            //##################################################################
+            //##### Akka.Streams.Kafka(의존:Confluent.Kafka) 을 사용하는 모드로, Security(SSL)이 아직 지원되지 않습니다.
+            //##### Private으로 구성된, Kafka Pass 모드일때 사용가능합니다.
+            //##### AkkaStream.Kafka가 제공하는 스트림을 활용핼때 장점이 있습니다.
+            //##################################################################
+
+            // KAFKA - 
             // 각 System은 싱글톤이기때문에 DI를 통해 Controller에서 참조획득가능
             var consumerSystem = app.ApplicationServices.GetService<ConsumerSystem>();
             var producerSystem = app.ApplicationServices.GetService<ProducerSystem>();
@@ -48,16 +98,16 @@ namespace AkkaDotBootApi.Test
             consumerSystem.Start(new ConsumerAkkaOption()
             {
                 KafkaGroupId = "testGroup",
-                KafkaUrl = "kafka:9092",
+                BootstrapServers = "kafka:9092",
                 RelayActor = null,          //소비되는 메시지가 지정 액터로 전달되기때문에,처리기는 액터로 구현
-                Topics = "akka100"
+                Topics = "akka100",
             });
 
             //생산자 : 복수개의 생산자 생성가능
             producerSystem.Start(new ProducerAkkaOption()
             {
-                KafkaUrl = "kafka:9092",
-                ProducerName = "producer1"
+                BootstrapServers  = "kafka:9092",
+                ProducerName = "producer1",                
             });
 
             List<string> messages = new List<string>();
@@ -69,7 +119,6 @@ namespace AkkaDotBootApi.Test
             //보너스 : 생산의 속도를 조절할수 있습니다.
             int tps = 10;
             producerSystem.SinkMessage("producer1", "akka100", messages, tps);
-
         }
     }
 }

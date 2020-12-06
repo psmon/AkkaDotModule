@@ -22,10 +22,6 @@ namespace TestAkkaDotModule.TestActors
         [InlineData(20)]
         public void Test1(int waitTimeSec)
         {
-            return; 
-            //20초정도 소요되는 유닛테스트로, 배포시 자동유닛 테스트함으로 작동봉인 조치..
-            //로컬에서만 돌릴것...GitHub 빌드비용 나감~~
-
             var delayActor_fast1 = Sys.ActorOf(Props.Create(() => new DelayActor("delayActor_fast1"))
                 .WithDispatcher("custom-fork-join-dispatcher2")
             );
