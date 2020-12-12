@@ -5,6 +5,7 @@ using AkkaDotModule.Models;
 using Confluent.Kafka;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AkkaDotModule.ActorUtils.Confluent
 {
@@ -82,13 +83,16 @@ namespace AkkaDotModule.ActorUtils.Confluent
 
             ReceiveAsync<ConsumerPull>(async msg =>
             {
-                IActorRef selfActor = this.Self;
-                var cr = consumer.Consume(cancellationTokenSource.Token);
-                selfActor.Tell(new KafkaTextMessage()
+                await Task.Run(async () =>
                 {
-                    Topic = cr.Topic,
-                    Message = cr.Message.Value
-                });
+                    var cr = consumer.Consume(cancellationTokenSource.Token);
+                    var kafkamsg = new KafkaTextMessage()
+                    {
+                        Topic = cr.Topic,
+                        Message = cr.Message.Value
+                    };
+                    return kafkamsg;
+                }).PipeTo(Self);
             });
 
             ReceiveAsync<KafkaTextMessage>(async msg => 

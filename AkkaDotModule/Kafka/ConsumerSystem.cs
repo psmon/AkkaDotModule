@@ -28,11 +28,6 @@ namespace AkkaDotModule.Kafka
                 .WithBootstrapServers(consumerActorOption.BootstrapServers)
                 .WithGroupId(consumerActorOption.KafkaGroupId);
 
-            if(consumerActorOption.SecurityOption != null)
-            {
-                KafkaSecurityOption kafkaSecurityOption = consumerActorOption.SecurityOption;
-            }
-
 
             var materializer_consumer = consumerSystem.Materializer();
 

@@ -40,7 +40,7 @@ namespace TestAkkaDotModule.ActorSample
         }
 
         public ExampleState() : this(ImmutableList.Create<string>())
-        {
+        {            
         }
 
         public ExampleState Updated(Evt evt)

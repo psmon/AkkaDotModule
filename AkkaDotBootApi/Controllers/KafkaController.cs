@@ -23,7 +23,7 @@ namespace AkkaDotBootApi.Controllers
         }
 
         /// <summary>
-        /// Kafka 메시지 생성 : System이용
+        /// Kafka 메시지 생성 : ProducerSystem
         /// 개수와 tps조절가능
         /// 
         /// testTopic : akka100
@@ -41,7 +41,7 @@ namespace AkkaDotBootApi.Controllers
         }
 
         /// <summary>
-        /// Kafka 메시지 생성 : Actor이용(이모델을 사용추천)        
+        /// Kafka 메시지 생성 : Actor이용
         /// 
         /// testTopic : akka100
         /// </summary>

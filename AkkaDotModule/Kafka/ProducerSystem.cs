@@ -17,6 +17,7 @@ namespace AkkaDotModule.Kafka
     public class ProducerSystem
     {
         private ActorSystem producerSystem;        
+        
         private ActorMaterializer materializer_producer;
 
         private Dictionary<string, ProducerSettings<Null, string>> producerList = new Dictionary<string, ProducerSettings<Null, string>>();
@@ -36,21 +37,7 @@ namespace AkkaDotModule.Kafka
             var producer = ProducerSettings<Null, string>.Create(producerSystem, null, null)
                 .WithBootstrapServers(producerAkkaOption.BootstrapServers);                
 
-            if(producerAkkaOption.SecurityOption != null)
-            {
-                KafkaSecurityOption kafkaSecurityOption = producerAkkaOption.SecurityOption;
-                /*
-                producer = producer
-                    .WithProperty("security.protocol", kafkaSecurityOption.SecurityProtocol)
-                    .WithProperty("sasl.mechanism", kafkaSecurityOption.SaslMechanism)
-                    .WithProperty("sasl.username", kafkaSecurityOption.SaslUsername)
-                    .WithProperty("sasl.password", kafkaSecurityOption.SaslPassword);
-                    //.WithProperty("kafka-clients.ssl.calocation", kafkaSecurityOption.SslCaLocation);
-                */
-            };
-
             producerList[producerAkkaOption.ProducerName] = producer;
-
         }
 
         public void SinkMessage(string producerName, string topic,List<string> message,int tps)
@@ -59,7 +46,7 @@ namespace AkkaDotModule.Kafka
 
             Source<string, NotUsed> source = Source.From(message);
             source
-            .Throttle(tps, TimeSpan.FromSeconds(1), 1, ThrottleMode.Shaping)      //TPS
+            .Throttle(tps, TimeSpan.FromSeconds(1), 100, ThrottleMode.Shaping)      //TPS
             .Select(c =>
             {
                 return c;
