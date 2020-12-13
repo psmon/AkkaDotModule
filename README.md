@@ -1,6 +1,8 @@
 # AkkaDotModule
 
-프로젝트명 : 아카닷부트
+## 저장소 : https://github.com/psmon/AkkaDotModule
+
+프로젝트명 : 아카닷모듈
 
 닷넷 환경에서 AKKA(https://getakka.net/)의 모듈을 안정적으로 공통화하고 AKKA.NET을 학습할수 있는 환경을 제공하여
 
