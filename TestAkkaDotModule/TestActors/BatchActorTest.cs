@@ -7,6 +7,7 @@ using System;
 using Xunit;
 using Xunit.Abstractions;
 
+// http://wiki.webnori.com/display/AKKA/Finite+State+Machines
 namespace TestAkkaDotModule.TestActors
 {
     public class BatchActorTest : TestKitXunit

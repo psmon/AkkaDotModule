@@ -11,6 +11,7 @@ using System.Linq;
 using Xunit;
 using Xunit.Abstractions;
 
+// http://wiki.webnori.com/display/AKKA/Basics+and+working+with+Flows
 namespace TestAkkaDotModule.TestActors
 {
     public class StreamTest : TestKitXunit

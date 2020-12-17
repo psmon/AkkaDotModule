@@ -6,6 +6,7 @@ using AkkaNetCoreTest;
 using Xunit;
 using Xunit.Abstractions;
 
+// http://wiki.webnori.com/display/webfr/MailBox
 namespace TestAkkaDotModule.TestActors
 {
     public class PriorityMessageMailboxTest : TestKitXunit

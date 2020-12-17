@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
+// http://wiki.webnori.com/display/webfr/EventSourcing
 namespace TestAkkaDotModule.ActorSample
 {
     public class PersistentActorTest : TestKitXunit

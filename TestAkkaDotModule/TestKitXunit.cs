@@ -44,13 +44,13 @@ slow-dispatcher {
 	throughput = 1
 }
 
-# TPL 사용
+# TPL 사용 - https://docs.microsoft.com/ko-kr/dotnet/standard/parallel-programming/task-parallel-library-tpl
 custom-task-dispatcher {
 	type = TaskDispatcher
 	throughput = 10
 }
 
-# 스레드풀 사용전략 직접 지정
+# ForkJoin : 분할정복 알고리즘(큰 Task를 작은단위로 쪼개고 취합하는방식)
 custom-fork-join-dispatcher1 {
 	type = ForkJoinDispatcher
 	throughput = 100

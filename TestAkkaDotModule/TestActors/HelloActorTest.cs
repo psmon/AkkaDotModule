@@ -6,6 +6,7 @@ using AkkaNetCoreTest;
 using Xunit;
 using Xunit.Abstractions;
 
+// http://wiki.webnori.com/display/webfr/UnitTest+For+Actor+Message
 namespace TestAkkaDotModule.TestActors
 {
     public class HelloActorTest : TestKitXunit
@@ -19,7 +20,7 @@ namespace TestAkkaDotModule.TestActors
 
         public void Setup()
         {
-            //스트림을 제공받는 최종 소비자 ( 물을 제공 받는 고객 )
+            //테스트 관찰자..
             probe = this.CreateTestProbe();
         }
 

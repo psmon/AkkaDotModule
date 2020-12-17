@@ -9,6 +9,7 @@ using AkkaNetCoreTest;
 using Xunit;
 using Xunit.Abstractions;
 
+// http://wiki.webnori.com/display/webfr/Stream+-+ThrottleActor
 namespace TestAkkaDotModule.TestActors
 {
     public class ThrottleWorkTest : TestKitXunit

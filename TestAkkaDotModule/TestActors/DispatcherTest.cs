@@ -5,6 +5,7 @@ using TestAkkaDotModule.ActorSample;
 using Xunit;
 using Xunit.Abstractions;
 
+// http://wiki.webnori.com/display/webfr/Dispatcher+Vs+Thread
 namespace TestAkkaDotModule.TestActors
 {
     public class DispatcherTest : TestKitXunit
