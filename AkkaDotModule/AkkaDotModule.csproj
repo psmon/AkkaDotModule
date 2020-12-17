@@ -14,18 +14,21 @@
   </ItemGroup>
   
     <ItemGroup>
+    <!-- Base / Persitence  -->
     <PackageReference Include="Akka" Version="1.4.12" />
+    <PackageReference Include="Akka.Persistence" Version="1.4.12" />      
+    <!-- Network  -->
+    <PackageReference Include="Akka.Remote" Version="1.4.12" />
     <PackageReference Include="Akka.Cluster" Version="1.4.12" />
     <PackageReference Include="Akka.Cluster.Tools" Version="1.4.12" />
-    <PackageReference Include="Akka.DI.Extensions.DependencyInjection" Version="1.4.11" />
-    <PackageReference Include="Akka.Logger.NLog" Version="1.3.5" />
-    <PackageReference Include="Akka.Persistence" Version="1.4.12" />
+    <!-- Stream / Kafka -->
     <PackageReference Include="Akka.Streams" Version="1.4.12" />
     <PackageReference Include="Akka.Streams.Kafka" Version="1.1.0" />
-    <PackageReference Include="Akka.Cluster" Version="1.4.12" />
-    <PackageReference Include="Akka.Cluster.Tools" Version="1.4.12" />
-    <PackageReference Include="Akka.Logger.NLog" Version="1.3.5" />
     <PackageReference Include="Confluent.Kafka" Version="1.5.2" />
+    <!-- DI / LOGGING -->
+    <PackageReference Include="Akka.DI.Extensions.DependencyInjection" Version="1.4.11" />
+    <PackageReference Include="Akka.Logger.NLog" Version="1.3.5" />
+      
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.6" />
   </ItemGroup>
 

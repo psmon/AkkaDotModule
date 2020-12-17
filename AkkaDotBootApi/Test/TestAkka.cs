@@ -19,8 +19,8 @@ namespace AkkaDotBootApi.Test
         {
             // HelloActor 기본액터
             AkkaLoad.RegisterActor("helloActor" /*AkkaLoad가 인식하는 유니크명*/,
-                actorSystem.ActorOf(Props.Create(() => new HelloActor("webnori")), "helloActor" /*AKKA가 인식하는 Path명*/
-            ));
+                actorSystem.ActorOf(Props.Create(() => new HelloActor("webnori")),
+                    "helloActor" /*AKKA가 인식하는 Path명*/));
 
             var helloActor = actorSystem.ActorSelection("user/helloActor");
             var helloActor2 = AkkaLoad.ActorSelect("helloActor");
@@ -28,15 +28,16 @@ namespace AkkaDotBootApi.Test
             helloActor.Tell("hello");
             helloActor2.Tell("hello");
 
-
             // 밸브 Work : 초당 작업량을 조절                
             int timeSec = 1;
             int elemntPerSec = 5;
             var throttleWork = AkkaLoad.RegisterActor("throttleWork",
-                actorSystem.ActorOf(Props.Create(() => new ThrottleWork(elemntPerSec, timeSec)), "throttleWork"));
+                actorSystem.ActorOf(Props.Create(() => new ThrottleWork(elemntPerSec, timeSec)),
+                "throttleWork"));
 
             // 실제 Work : 밸브에 방출되는 Task를 개별로 처리
-            var worker = AkkaLoad.RegisterActor("worker", actorSystem.ActorOf(Props.Create<WorkActor>(), "worker"));
+            var worker = AkkaLoad.RegisterActor("worker", actorSystem.ActorOf(Props.Create<WorkActor>(),
+                "worker"));
 
             // 배브의 작업자를 지정
             throttleWork.Tell(new SetTarget(worker));
