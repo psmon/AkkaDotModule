@@ -14,10 +14,11 @@ namespace AkkaDotModule.ActorSample
 
         private IActorRef target = null;
 
-        public HelloActor(string name)
+        public HelloActor(string name, IActorRef _target)
         {
             MyName = name;
-            
+            target = _target;
+
             ReceiveAsync<string>(async message =>
             {
                 string inComeMessage = $"[{MyName}] : {message}";

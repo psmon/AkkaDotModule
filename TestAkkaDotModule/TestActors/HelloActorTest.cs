@@ -33,7 +33,7 @@ namespace TestAkkaDotModule.TestActors
         [InlineData(3)]
         public void TestFireAndForget(int expectedTestSec) 
         {
-            var helloActor = Sys.ActorOf(Props.Create(() => new HelloActor("Minsu")));
+            var helloActor = Sys.ActorOf(Props.Create(() => new HelloActor("Minsu", null)));
 
             // 응답 받을 액터를 지정한다. (첫번째:지정자 , 두번째:전송자)
             helloActor.Tell(probe.Ref, this.TestActor);
