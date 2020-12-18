@@ -56,9 +56,9 @@ namespace TestAkkaDotModule.TestActors
         /// <summary>
         /// 사용목적 : 액터를 라운드 로빈으로 구성하고 분산처리할때
         /// </summary>        
-        [Theory(DisplayName = "hello를 n번 전송하면, n개의 액터가 각각 균등처리하면서 world 응답.. ")]
+        [Theory(DisplayName = "hello를 n번 전송하면, n개의 액터가 각각 균등처리하면서, world 응답체크.. ")]
         [InlineData(10, 3)]
-        public void TestRoundRobbinAsk(int poolLength, int expectedTestSec)
+        public void TestRoundRobbinCheckMsg(int poolLength, int expectedTestSec)
         {
             var helloActor = Sys.ActorOf(Props.Create(() =>
                 new HelloActor("Pool5", probe)).WithRouter(new RoundRobinPool(poolLength)));
@@ -71,9 +71,9 @@ namespace TestAkkaDotModule.TestActors
                 //When
                 for (int i = 0; i < poolLength; i++)
                 {                    
-                    helloActor.Tell("fire:" + (i + 1), this.TestActor);
+                    helloActor.Tell("hello:" + (i + 1), this.TestActor);
                     //Then
-                    //probe.ExpectMsg( TimeSpan.FromSeconds(1), expectedStr);
+                    ExpectMsg( expectedStr);
                 }
 
                 // 응답메시지가 없음을 검사(대기)
