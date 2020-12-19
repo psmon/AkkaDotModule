@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
+
+// 참고 : http://wiki.webnori.com/display/AKKA/Actor+Address
 namespace AkkaDotBootApi.Controllers
 {
     [ApiController]

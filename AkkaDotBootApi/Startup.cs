@@ -39,11 +39,17 @@ namespace AkkaDotBootApi
             services.AddSingleton<ConsumerSystem>();
             services.AddSingleton<ProducerSystem>();
 
+            // Akka 설정
+            // 참고 :  https://getakka.net/articles/concepts/configuration.html
+            // AKKASYSTEM : http://wiki.webnori.com/display/AKKA/AKKASYSTEM
             // Akka 셋팅
             var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var akkaConfig = AkkaLoad.Load(envName, Configuration);
             actorSystem = ActorSystem.Create("AkkaDotBootSystem", akkaConfig);
+
             services.AddAkka(actorSystem);
+            //services.AddSingleton<ActorSystem>((provider) => actorSystem);
+
 
             // Swagger
             services.AddSwaggerGen(c =>

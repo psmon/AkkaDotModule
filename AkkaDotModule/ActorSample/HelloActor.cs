@@ -14,10 +14,9 @@ namespace AkkaDotModule.ActorSample
 
         private IActorRef target = null;
 
-        public HelloActor(string name, IActorRef _target)
+        public HelloActor(string name)
         {
-            MyName = name;
-            target = _target;
+            MyName = name;            
 
             ReceiveAsync<string>(async message =>
             {
@@ -26,15 +25,15 @@ namespace AkkaDotModule.ActorSample
                 if(message == "fire")
                 {                    
                 }
-                else if(message == "hello")
+                else if(message.Contains("hello"))
                 {
-                    Sender.Tell("world");
+                    if(Sender!=null)
+                        Sender.Tell("world");
 
                     //지정된 액터에게 추가 전송
-                    if (target != null)
-                    {
+                    if (target != null)                    
                         target.Tell("world");
-                    }                        
+                                            
                 }
             });
 

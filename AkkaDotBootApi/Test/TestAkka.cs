@@ -17,6 +17,8 @@ namespace AkkaDotBootApi.Test
     {
         static public void Start(IApplicationBuilder app, ActorSystem actorSystem)
         {
+            // http://wiki.webnori.com/display/AKKA/Actors
+
             // HelloActor 기본액터
             AkkaLoad.RegisterActor("helloActor" /*AkkaLoad가 인식하는 유니크명*/,
                 actorSystem.ActorOf(Props.Create(() => new HelloActor("webnori")),
