@@ -25,6 +25,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose-infra", "Com
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{DBE1C7C4-4B4B-48C0-8643-542EE6091F15}"
 	ProjectSection(SolutionItems) = preProject
+		Doc\AKKA Introduce.pptx = Doc\AKKA Introduce.pptx
 		Doc\Dispatcher.md = Doc\Dispatcher.md
 		Doc\DotCoreApiWithAkka.pptx = Doc\DotCoreApiWithAkka.pptx
 		Doc\EventSourcing.md = Doc\EventSourcing.md
