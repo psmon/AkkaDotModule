@@ -56,14 +56,14 @@ namespace AkkaDotBootApi.Test
             //ProducerActor
             var producerAkkaOption = new ProducerAkkaOption()
             {
-                BootstrapServers = "webnori-kafka.servicebus.windows.net:9093",
+                BootstrapServers = "webnori.servicebus.windows.net:9093",
                 ProducerName = "webnori-kafka",
                 SecurityOption = new KafkaSecurityOption()
                 {
                     SecurityProtocol = SecurityProtocol.SaslSsl,
                     SaslMechanism = SaslMechanism.Plain,
                     SaslUsername = "$ConnectionString",
-                    SaslPassword = "Endpoint=sb://webnori-kafka.servicebus.windows.net/;SharedAccessKeyName=kafka-client;SharedAccessKey=PfL0qRUm50AXZHRXLiVfnatIRI3OqAh+dT6Owsqrd2M=",
+                    SaslPassword = "Endpoint=sb://webnori.servicebus.windows.net/;SharedAccessKeyName=MessageAccessKey;SharedAccessKey=GoWQotBdNiYoCYQEDeuxeKJQCa6iDC0A4TLK7UvvA1A=",
                     SslCaLocation = "./cacert.pem"
                 }
             };
@@ -87,7 +87,7 @@ namespace AkkaDotBootApi.Test
             //ConsumerActor
             var consumerAkkaOption = new ConsumerAkkaOption()
             {
-                BootstrapServers = "webnori-kafka.servicebus.windows.net:9093",
+                BootstrapServers = "webnori.servicebus.windows.net:9093",
                 Topics = "akka100",
                 AutoOffsetReset = AutoOffsetReset.Earliest,
                 KafkaGroupId = "akakTestGroup",
@@ -97,7 +97,7 @@ namespace AkkaDotBootApi.Test
                     SecurityProtocol = SecurityProtocol.SaslSsl,
                     SaslMechanism = SaslMechanism.Plain,
                     SaslUsername = "$ConnectionString",
-                    SaslPassword = "Endpoint=sb://webnori-kafka.servicebus.windows.net/;SharedAccessKeyName=kafka-client;SharedAccessKey=PfL0qRUm50AXZHRXLiVfnatIRI3OqAh+dT6Owsqrd2M=",
+                    SaslPassword = "Endpoint=sb://webnori.servicebus.windows.net/;SharedAccessKeyName=MessageAccessKey;SharedAccessKey=GoWQotBdNiYoCYQEDeuxeKJQCa6iDC0A4TLK7UvvA1A=",
                     SslCaLocation = "./cacert.pem"
                 }
             };
