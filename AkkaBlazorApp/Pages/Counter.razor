@@ -2,6 +2,8 @@
 @using AkkaDotModule.Config
 @using Akka.Actor
 @using AkkaBlazorApp.Actors
+@implements IDisposable
+@using System.Timers
 
 <h1>Counter</h1>
 
@@ -19,10 +21,42 @@
         base.OnInitialized();
 
         currentCount = (int)countActor.Ask(CmdCount.CUR_NUM).Result;
-    }    
+    }
 
     private void IncrementCount()
     {
         currentCount = (int)countActor.Ask(CmdCount.ADD_NUM).Result;
     }
+
+    //갱신..
+    private Timer timer;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            timer = new Timer();
+            timer.Interval = 1000;
+            timer.Elapsed += OnTimerInterval;
+            timer.AutoReset = true;
+            // Start the timer
+            timer.Enabled = true;
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    private void OnTimerInterval(object sender, ElapsedEventArgs e)
+    {
+        currentCount = (int)countActor.Ask(CmdCount.CUR_NUM).Result;
+
+        InvokeAsync(() => StateHasChanged());
+    }
+
+    public void Dispose()
+    {
+        // During prerender, this component is rendered without calling OnAfterRender and then immediately disposed
+        // this mean timer will be null so we have to check for null or use the Null-conditional operator ? 
+        timer?.Dispose();
+    }
+
 }
