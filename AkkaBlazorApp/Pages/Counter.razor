@@ -1,0 +1,28 @@
+﻿@page "/counter"
+@using AkkaDotModule.Config
+@using Akka.Actor
+@using AkkaBlazorApp.Actors
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    IActorRef countActor = AkkaLoad.ActorSelect("countActor");
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        currentCount = (int)countActor.Ask(CmdCount.CUR_NUM).Result;
+    }    
+
+    private void IncrementCount()
+    {
+        currentCount = (int)countActor.Ask(CmdCount.ADD_NUM).Result;
+    }
+}

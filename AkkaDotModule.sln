@@ -34,6 +34,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{DBE1C7C4-4B4
 		Doc\Router.md = Doc\Router.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaBlazorApp", "AkkaBlazorApp\AkkaBlazorApp.csproj", "{5A359FC6-9BEC-4646-929A-1AAC9D4DFB50}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0109FF0B-5148-4EB8-8936-990BA65CDBF5} = {0109FF0B-5148-4EB8-8936-990BA65CDBF5}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +61,10 @@ Global
 		{A325C35E-28E0-43CE-B28F-516DC1568E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A325C35E-28E0-43CE-B28F-516DC1568E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A325C35E-28E0-43CE-B28F-516DC1568E18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A359FC6-9BEC-4646-929A-1AAC9D4DFB50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A359FC6-9BEC-4646-929A-1AAC9D4DFB50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A359FC6-9BEC-4646-929A-1AAC9D4DFB50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A359FC6-9BEC-4646-929A-1AAC9D4DFB50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
