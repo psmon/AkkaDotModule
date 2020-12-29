@@ -1,4 +1,7 @@
 ﻿using Akka.Actor;
+using Akka.Streams;
+using Akka.Streams.SignalR.AspNetCore;
+using AkkaDotBootApi.SignalR;
 using AkkaDotBootApi.Test;
 using AkkaDotModule.Config;
 using AkkaDotModule.Kafka;
@@ -48,8 +51,12 @@ namespace AkkaDotBootApi
             actorSystem = ActorSystem.Create("AkkaDotBootSystem", akkaConfig);
 
             services.AddAkka(actorSystem);
-            //services.AddSingleton<ActorSystem>((provider) => actorSystem);
-
+            
+            // Signal R 셋팅
+            services
+            .AddSingleton(new ConnectionSourceSettings(102400, OverflowStrategy.DropBuffer))
+            .AddSignalRAkkaStream()            
+            .AddSignalR();
 
             // Swagger
             services.AddSwaggerGen(c =>
@@ -122,14 +129,15 @@ namespace AkkaDotBootApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            app.UseStaticFiles()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
 
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+                    endpoints.MapHub<EchoHub>("/echo");
+                });
 
             lifetime.ApplicationStarted.Register(() =>
             {

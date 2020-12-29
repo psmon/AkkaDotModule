@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Akka.Actor;
 using Akka.Configuration;
+using Akka.Streams;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AkkaConfig = Akka.Configuration.Config;
@@ -14,11 +15,16 @@ namespace AkkaDotModule.Config
     {
         public static ActorSystem ActorSystem { get; set; }
 
+        public static IMaterializer Materializer { get; set; }  //For AkkaStream
+
         public static ConcurrentDictionary<string, IActorRef> ActorList = new ConcurrentDictionary<string, IActorRef>();
 
         public static IServiceCollection AddAkka(this IServiceCollection services, ActorSystem actorSystem)
         {
             ActorSystem = actorSystem;
+
+            Materializer = actorSystem.Materializer();
+
             // Register ActorSystem
             services.AddSingleton<ActorSystem>((provider) => actorSystem);
             return services;
