@@ -14,11 +14,12 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 
 안정적으로 사용하는 것에 목적이 있습니다.
 
-# GitLayOut
+# AppLayOut
 
-- AkkaDotBootApi : AKKA를 활용한 샘플 API
-- AkkDotModule : AKKA의 쉬운접근을 위해 모듈화
-- TestAkkaModule : AkkDotModule을 테스트하기위한 유닛테스트
+- AkkaDotBootApi : 닷넷코어 API에서 AKKA를 활용하는 샘플 API입니다.
+- AkkaBlazorApp : Blazor에서 액터모델을 활용하는 샘플 웹입니다. 
+- AkkaDotModule : AKKA.NET 모듈이 패키징되어 있으며, 닷넷코어를 위해 유틸리티화 되어있습니다.
+- TestAkkaModule : AkkaDotModule을 테스트하기위한 유닛테스트
 - Doc : Akka를 설명하기위한 여러가지 문서들
 
 
@@ -33,7 +34,8 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 [More Detail](AKKAUSING.md)
 
 # 주요 릴리즈 노트
-
+- 1.1.1 : Signalr Stream 지원 - http://wiki.webnori.com/display/webfr/SignalR+with+AKKA+Stream
+- 1.1.0 : Blazor With AKKA - http://wiki.webnori.com/display/webfr/Blazor+With+AKKA
 - 1.0.9 : Kafka ConsumerActor 추가 (목적:Kafka SSL모드지원) - [사용법](AkkaDotBootApi/Test/TestAkka.cs)
 - 1.0.8 : Kafka ProducerActor 추가 (목적:Kafka SSL모드지원) - [Link](http://wiki.webnori.com/display/webfr/Auzere+EventHub%28KAFKA%29+With+Actor)
 - 1.0.7 : 실시간 배치처리기([BatchActor](TestAkkaDotModule/TestActors/BatchActorTest.cs)) 추가
@@ -51,30 +53,6 @@ AKKA의 버전업에 항상 대응하는것이아닌, 유닛테스트를 통해 
 Link : https://www.nuget.org/packages/AkkaDotModule.Webnori/
 
     dotnet add package AkkaDotModule.Webnori --version x.x.x
-
-
-# AkkaDotBootApi
-
-AkkaDotModule을 닷넷코어 API에서 활용하는 샘플을 살펴볼수 있습니다.
-
-AkkaDotModule을 API레벨에 적용하기전 다양한 테스트를 진행할수 있습니다.
-
-[AkkaDotBootApi](https://github.com/psmon/AkkaDotModule/tree/master/AkkaDotBootApi)
-
-
-# 모듈 테스트
-
-여기서 작성되는 모듈은 버전업시 유닛테스트를 자동 수행하고 있습니다.
-
-유닛 테스트가 실패한다면 배포준비 과정중 실패를 시키며, 안정적인 모듈 사용을 할수 있습니다.
-
-또한 유닛테스트는 사용법을 스스로 설명하고 검증하기때문에 별도의 사용 메뉴얼이 필요하지 않습니다.
-
-    dotnet test TestAkkaDotModule
-
-Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
-
-![](Doc/ThrottleWork01.png)
 
 
 # 닷넷어플리케이션 탑재
@@ -152,7 +130,6 @@ Visual Studio 테스트 탐색기에서 검증결과 확인가능합니다.
 
 이 모듈 사용을 포함 akka에 대한 기술문의 언제든 환영입니다.
 
-초대문의 : psmon@live.co.kr
+Akka FaceBook Link : https://www.facebook.com/groups/akkalabs
 
-Akka FaceBook Link : https://www.facebook.com/groups/784185912433992
-
+Emal : psmon@live.co.kr
