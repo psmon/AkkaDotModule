@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AkkaDotBootApi.Repositories
 {
-    public class UserRepository : DbContext
+    public class UserRepository : DbContext, IUserRepository
     {
         private string database = "webnori";
 
