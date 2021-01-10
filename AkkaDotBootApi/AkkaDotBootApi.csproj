@@ -33,5 +33,9 @@
     <ProjectReference Include="..\AkkaDotModule\AkkaDotModule.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 
 </Project>

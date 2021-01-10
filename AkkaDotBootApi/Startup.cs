@@ -1,12 +1,15 @@
 ﻿using Akka.Actor;
 using Akka.Streams;
 using Akka.Streams.SignalR.AspNetCore;
+using AkkaDotBootApi.Config;
+using AkkaDotBootApi.Repositories;
 using AkkaDotBootApi.SignalR;
 using AkkaDotBootApi.Test;
 using AkkaDotModule.Config;
 using AkkaDotModule.Kafka;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -39,8 +42,12 @@ namespace AkkaDotBootApi
         {
             services.AddControllers();
 
+            services.AddSingleton(Configuration.GetSection("AppSettings").Get<AppSettings>());// * AppSettings
+
             services.AddSingleton<ConsumerSystem>();
             services.AddSingleton<ProducerSystem>();
+
+            services.AddDbContext<UserRepository>();
 
             // Akka 설정
             // 참고 :  https://getakka.net/articles/concepts/configuration.html
@@ -124,10 +131,26 @@ namespace AkkaDotBootApi
                 c.RoutePrefix = "help";
             });
 
-            if (env.IsDevelopment())
+            if (!env.IsProduction())
             {
+                using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+                {
+                    //로컬 개발모드에서는 Entity 자동생성
+                    var userRepository = serviceScope.ServiceProvider.GetRequiredService<UserRepository>();
+                    string currentConection = userRepository.Database.GetDbConnection().ConnectionString;
+                    if (currentConection.Contains("localhost"))
+                    {
+                        userRepository.Database.EnsureDeleted();
+                        userRepository.Database.EnsureCreated();
+                    }
+
+                    // ORM 마이그레이션은 다음을 참고합니다.
+                    // https://docs.microsoft.com/ko-kr/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli
+
+                }
                 app.UseDeveloperExceptionPage();
             }
+
 
             app.UseStaticFiles()
                 .UseRouting()
