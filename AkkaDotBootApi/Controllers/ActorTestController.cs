@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using AkkaDotBootApi.Actor;
 using AkkaDotModule.Config;
 using AkkaDotModule.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -77,5 +78,22 @@ namespace AkkaDotBootApi.Controllers
             return result;
         }
 
+        /// <summary>
+        /// InfiniteReflectionActor_Test
+        /// 무한액터 테스트
+        /// </summary>
+        [HttpGet("InfiniteReflectionActor")]
+        public string InfiniteReflectionActor_Test()
+        {
+            var infiniteReflectionActor1 = _actorSystem.ActorSelection("user/infiniteReflectionActor1");
+            infiniteReflectionActor1.Tell(new InfiniteMessage()
+            {
+                Message = "무한메시지",
+                Count = 1
+            });
+
+            return "전송OK";
+        }
+        
     }
 }

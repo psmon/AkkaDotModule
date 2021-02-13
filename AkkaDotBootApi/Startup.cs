@@ -18,6 +18,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using IApplicationLifetime = Microsoft.Extensions.Hosting.IApplicationLifetime;
+using Akka.Monitoring.Datadog;
+using StatsdClient;
+using Akka.Monitoring;
 
 namespace AkkaDotBootApi
 {
@@ -58,7 +61,15 @@ namespace AkkaDotBootApi
             actorSystem = ActorSystem.Create("AkkaDotBootSystem", akkaConfig);
 
             services.AddAkka(actorSystem);
-            
+
+            //모니터링추가
+            var statsdConfig = new StatsdConfig
+            {
+                StatsdServerName = "127.0.0.1"
+            };
+            ActorMonitoringExtension.RegisterMonitor(actorSystem, new ActorDatadogMonitor(statsdConfig));
+
+
             // Signal R 셋팅
             services
             .AddSingleton(new ConnectionSourceSettings(102400, OverflowStrategy.DropBuffer))
@@ -119,10 +130,9 @@ namespace AkkaDotBootApi
             });
 
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+                
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApplicationLifetime lifetime)
-        {
+        {            
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -140,8 +150,8 @@ namespace AkkaDotBootApi
                     string currentConection = userRepository.Database.GetDbConnection().ConnectionString;
                     if (currentConection.Contains("localhost"))
                     {
-                        userRepository.Database.EnsureDeleted();
-                        userRepository.Database.EnsureCreated();
+                        //userRepository.Database.EnsureDeleted();
+                        //userRepository.Database.EnsureCreated();
                     }
 
                     // ORM 마이그레이션은 다음을 참고합니다.
@@ -150,7 +160,6 @@ namespace AkkaDotBootApi
                 }
                 app.UseDeveloperExceptionPage();
             }
-
 
             app.UseStaticFiles()
                 .UseRouting()

@@ -82,3 +82,12 @@ PriorityMessage(우선순위메시지)는 동시에 발생하는 메시지에대
     //보너스 : 생산의 속도를 조절할수 있습니다.
     int tps = 10;
     producerSystem.SinkMessage("producer1", "akka100", messages, tps);
+
+## AKKA 모니터링을 위한 DatadogAgent
+
+- https://docs.datadoghq.com/agent/docker/?tab=standard
+- https://docs.datadoghq.com/agent/basic_agent_usage/windows/?tab=gui
+
+
+
+

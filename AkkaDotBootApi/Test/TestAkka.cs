@@ -30,6 +30,38 @@ namespace AkkaDotBootApi.Test
             helloActor.Tell("hello");
             helloActor2.Tell("hello");
 
+            // 무한전송 셋트...
+            for(int i=0; i < 3; i++)
+            {
+                string actorFirstName = "infiniteReflectionActorA" + i;
+                string actorSecondName = "infiniteReflectionActorB" + i;
+
+                // 무한전송 Test Actor생성
+                var infiniteReflectionActorA = AkkaLoad.RegisterActor(actorFirstName,
+                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()),
+                        actorFirstName));
+
+                var infiniteReflectionActorB = AkkaLoad.RegisterActor(actorSecondName,
+                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()),
+                        actorSecondName));
+
+                //무한전송을 위한,응답대상을 크로스로 연결및 무한메시지 시작
+                infiniteReflectionActorA.Tell(infiniteReflectionActorB);
+                infiniteReflectionActorB.Tell(infiniteReflectionActorA);
+                
+                infiniteReflectionActorA.Tell(new InfiniteMessage()
+                {
+                    Message = "무한메시지A",
+                    Count = 0
+                });
+
+                infiniteReflectionActorB.Tell(new InfiniteMessage()
+                {
+                    Message = "무한메시지B",
+                    Count = 0
+                });
+            }
+
             // 밸브 Work : 초당 작업량을 조절                
             int timeSec = 1;
             int elemntPerSec = 5;
@@ -43,6 +75,8 @@ namespace AkkaDotBootApi.Test
 
             // 배브의 작업자를 지정
             throttleWork.Tell(new SetTarget(worker));
+
+            return;
 
 
             // 기호에따라 사용방식이 약간 다른 KAFKA를 선택할수 있습니다.
