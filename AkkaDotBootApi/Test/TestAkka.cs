@@ -33,7 +33,8 @@ namespace AkkaDotBootApi.Test
             //튜닝요소
             //custom-dispatcher , custom-task-dispatcher , default-fork-join-dispatcher
             string disPacther = "default-fork-join-dispatcher";
-            int pipongGroupCount = 3;   // 핑퐁그룹 ( 2인2조,
+            int pipongGroupCount = 1;   // 핑퐁그룹 ( 2인1조)
+            int ballCount = 6;          // 핑퐁에 사용된 공개수
 
             // 무한전송 셋트...
             for (int i=0; i < pipongGroupCount; i++)
@@ -54,17 +55,14 @@ namespace AkkaDotBootApi.Test
                 infiniteReflectionActorA.Tell(infiniteReflectionActorB);
                 infiniteReflectionActorB.Tell(infiniteReflectionActorA);
 
-                infiniteReflectionActorA.Tell(new InfiniteMessage()
+                for(int ballIdx=0; ballIdx< ballCount; ballIdx++)
                 {
-                    Message = "서브A",
-                    Count = 0
-                });
-
-                infiniteReflectionActorB.Tell(new InfiniteMessage()
-                {
-                    Message = "서브B",
-                    Count = 0
-                });
+                    infiniteReflectionActorA.Tell(new InfiniteMessage()
+                    {
+                        Message = "서브A",
+                        Count = 0
+                    });
+                }
             }
 
             // 밸브 Work : 초당 작업량을 조절                
