@@ -32,8 +32,8 @@ namespace AkkaDotBootApi.Actor
                     Message = infiniteMessage.Message,
                     Count = ++infiniteMessage.Count
                 };
-
-                if(reply.Count % 50000 == 1)
+                
+                if(reply.Count % 50000 == 0)
                 {
                     logger.Info($"Count:{reply.Count}");
                 }

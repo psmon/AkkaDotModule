@@ -30,34 +30,39 @@ namespace AkkaDotBootApi.Test
             helloActor.Tell("hello");
             helloActor2.Tell("hello");
 
+            //튜닝요소
+            //custom-dispatcher , custom-task-dispatcher , default-fork-join-dispatcher
+            string disPacther = "default-fork-join-dispatcher";
+            int pipongGroupCount = 3;   // 핑퐁그룹 ( 2인2조,
+
             // 무한전송 셋트...
-            for(int i=0; i < 3; i++)
+            for (int i=0; i < pipongGroupCount; i++)
             {
                 string actorFirstName = "infiniteReflectionActorA" + i;
                 string actorSecondName = "infiniteReflectionActorB" + i;
 
                 // 무한전송 Test Actor생성
                 var infiniteReflectionActorA = AkkaLoad.RegisterActor(actorFirstName,
-                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()),
+                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther),
                         actorFirstName));
 
                 var infiniteReflectionActorB = AkkaLoad.RegisterActor(actorSecondName,
-                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()),
+                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther),
                         actorSecondName));
 
                 //무한전송을 위한,응답대상을 크로스로 연결및 무한메시지 시작
                 infiniteReflectionActorA.Tell(infiniteReflectionActorB);
                 infiniteReflectionActorB.Tell(infiniteReflectionActorA);
-                
+
                 infiniteReflectionActorA.Tell(new InfiniteMessage()
                 {
-                    Message = "무한메시지A",
+                    Message = "서브A",
                     Count = 0
                 });
 
                 infiniteReflectionActorB.Tell(new InfiniteMessage()
                 {
-                    Message = "무한메시지B",
+                    Message = "서브B",
                     Count = 0
                 });
             }
