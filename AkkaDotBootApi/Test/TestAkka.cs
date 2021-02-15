@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Akka.Routing;
 using AkkaDotBootApi.Actor;
 using AkkaDotModule.ActorSample;
 using AkkaDotModule.ActorUtils;
@@ -9,7 +10,9 @@ using AkkaDotModule.Models;
 using Confluent.Kafka;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AkkaDotBootApi.Test
 {
@@ -30,11 +33,54 @@ namespace AkkaDotBootApi.Test
             helloActor.Tell("hello");
             helloActor2.Tell("hello");
 
+
+            //##################################################################
+            //##### TPS 측정편 - 액터성능
+            //##### 
+            //##### 
+            //##################################################################
+
+
             //튜닝요소
             //custom-dispatcher , custom-task-dispatcher , default-fork-join-dispatcher
-            string disPacther = "default-fork-join-dispatcher";
-            int pipongGroupCount = 1;   // 핑퐁그룹 ( 2인1조)
-            int ballCount = 6;          // 핑퐁에 사용된 공개수
+            string disPacther = "custom-task-dispatcher";
+            int pipongGroupCount = 1;   // 핑퐁그룹,탁구대를 늘릴수있다. ( 2인1조)
+            int ballCount = 6;          // 핑퐁에 사용된 공개수            
+
+            int testHitCount = 400000;
+            int distributedCnt = 50;            
+
+            var roundPool = AkkaLoad.RegisterActor("roundPool",
+                actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther)
+                .WithRouter(new RoundRobinPool(distributedCnt)),
+                "roundPool"));
+            
+            // Wait for all tasks to complete.
+            Task[] tasks = new Task[distributedCnt];
+            for (int i = 0; i < distributedCnt; i++)
+            {
+                tasks[i] = Task.Run(() => {
+                    for (int hitidx = 0; hitidx < testHitCount; hitidx++)
+                    {
+                        roundPool.Tell(new DistributedMessage()
+                        {
+                            Message = "test"
+                        });
+                    }
+                });
+            }
+            try
+            {
+                Task.WaitAll(tasks);
+                Console.WriteLine("Completed,Tell");
+            }
+            catch (AggregateException ae)
+            {
+                Console.WriteLine("One or more exceptions occurred: ");
+                foreach (var ex in ae.Flatten().InnerExceptions)
+                    Console.WriteLine("   {0}", ex.Message);
+            }
+
 
             // 무한전송 셋트...
             for (int i=0; i < pipongGroupCount; i++)
@@ -57,11 +103,13 @@ namespace AkkaDotBootApi.Test
 
                 for(int ballIdx=0; ballIdx< ballCount; ballIdx++)
                 {
+                    /*
                     infiniteReflectionActorA.Tell(new InfiniteMessage()
                     {
                         Message = "서브A",
                         Count = 0
                     });
+                    */
                 }
             }
 

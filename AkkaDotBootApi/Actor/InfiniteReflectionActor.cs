@@ -11,14 +11,23 @@ namespace AkkaDotBootApi.Actor
         public uint Count { get; set; }
     }
 
+    public class DistributedMessage
+    {
+        public string Message { get; set; }
+    }
+
     public class InfiniteReflectionActor : ReceiveActor
     {
         private IActorRef ReplyActor;
 
         private readonly ILoggingAdapter logger = Context.GetLogger();
 
+        private ulong recevedCnt;
+
         public InfiniteReflectionActor()
         {
+            recevedCnt = 0;
+
             ReceiveAsync<IActorRef>(async actorRef =>
             {
                 ReplyActor = actorRef;
@@ -40,6 +49,12 @@ namespace AkkaDotBootApi.Actor
 
                 ReplyActor.Tell(reply);
             });
+
+            ReceiveAsync<DistributedMessage>(async distributedMessage =>
+            {
+                Context.IncrementCounter("akka.distributed.metric");
+            });
+
         }
 
     }
