@@ -33,6 +33,26 @@ namespace AkkaDotBootApi.Test
             helloActor.Tell("hello");
             helloActor2.Tell("hello");
 
+            // 밸브 Work : 초당 작업량을 조절                
+            int timeSec = 1;
+            int elemntPerSec = 5;
+            var throttleWork = AkkaLoad.RegisterActor("throttleWork",
+                actorSystem.ActorOf(Props.Create(() => new ThrottleWork(elemntPerSec, timeSec)),
+                "throttleWork"));
+
+            // 실제 Work : 밸브에 방출되는 Task를 개별로 처리
+            var worker = AkkaLoad.RegisterActor("worker", actorSystem.ActorOf(Props.Create<WorkActor>(),
+                "worker"));
+
+            // 밸브 작업자를 지정
+            throttleWork.Tell(new SetTarget(worker));
+
+            //StartLoadTest(app,actorSystem);
+            //StartKafkaTest(app, actorSystem);
+        }
+
+        static public void StartLoadTest(IApplicationBuilder app, ActorSystem actorSystem)
+        {
 
             //##################################################################
             //##### TPS 측정편 - 액터성능
@@ -48,13 +68,13 @@ namespace AkkaDotBootApi.Test
             int ballCount = 6;          // 핑퐁에 사용된 공개수            
 
             int testHitCount = 400000;
-            int distributedCnt = 50;            
+            int distributedCnt = 50;
 
             var roundPool = AkkaLoad.RegisterActor("roundPool",
                 actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther)
                 .WithRouter(new RoundRobinPool(distributedCnt)),
                 "roundPool"));
-            
+
             // Wait for all tasks to complete.
             Task[] tasks = new Task[distributedCnt];
             for (int i = 0; i < distributedCnt; i++)
@@ -83,7 +103,7 @@ namespace AkkaDotBootApi.Test
 
 
             // 무한전송 셋트...
-            for (int i=0; i < pipongGroupCount; i++)
+            for (int i = 0; i < pipongGroupCount; i++)
             {
                 string actorFirstName = "infiniteReflectionActorA" + i;
                 string actorSecondName = "infiniteReflectionActorB" + i;
@@ -101,7 +121,7 @@ namespace AkkaDotBootApi.Test
                 infiniteReflectionActorA.Tell(infiniteReflectionActorB);
                 infiniteReflectionActorB.Tell(infiniteReflectionActorA);
 
-                for(int ballIdx=0; ballIdx< ballCount; ballIdx++)
+                for (int ballIdx = 0; ballIdx < ballCount; ballIdx++)
                 {
                     /*
                     infiniteReflectionActorA.Tell(new InfiniteMessage()
@@ -113,23 +133,10 @@ namespace AkkaDotBootApi.Test
                 }
             }
 
-            // 밸브 Work : 초당 작업량을 조절                
-            int timeSec = 1;
-            int elemntPerSec = 5;
-            var throttleWork = AkkaLoad.RegisterActor("throttleWork",
-                actorSystem.ActorOf(Props.Create(() => new ThrottleWork(elemntPerSec, timeSec)),
-                "throttleWork"));
+        }
 
-            // 실제 Work : 밸브에 방출되는 Task를 개별로 처리
-            var worker = AkkaLoad.RegisterActor("worker", actorSystem.ActorOf(Props.Create<WorkActor>(),
-                "worker"));
-
-            // 배브의 작업자를 지정
-            throttleWork.Tell(new SetTarget(worker));
-
-            return;
-
-
+        static public void StartKafkaTest(IApplicationBuilder app, ActorSystem actorSystem)
+        {
             // 기호에따라 사용방식이 약간 다른 KAFKA를 선택할수 있습니다.
 
             //##################################################################
@@ -137,7 +144,7 @@ namespace AkkaDotBootApi.Test
             //##### 보안연결이 지원하기때문에 Saas형태의 Kafka에 보안연결이 가능합니다.
             //##### 커스텀한 액터를 생성하여,AkkaStream을 이해하고 직접 연결할수 있을때 유용합니다.
             //##################################################################
-            
+
             //ProducerActor
             var producerAkkaOption = new ProducerAkkaOption()
             {
@@ -154,8 +161,8 @@ namespace AkkaDotBootApi.Test
             };
 
             string producerActorName = "producerActor";
-            var producerActor= AkkaLoad.RegisterActor(producerActorName /*AkkaLoad가 인식하는 유니크명*/,
-                actorSystem.ActorOf(Props.Create(() => 
+            var producerActor = AkkaLoad.RegisterActor(producerActorName /*AkkaLoad가 인식하는 유니크명*/,
+                actorSystem.ActorOf(Props.Create(() =>
                     new ProducerActor(producerAkkaOption)),
                     producerActorName /*AKKA가 인식하는 Path명*/
             ));
@@ -220,8 +227,8 @@ namespace AkkaDotBootApi.Test
             //생산자 : 복수개의 생산자 생성가능
             producerSystem.Start(new ProducerAkkaOption()
             {
-                BootstrapServers  = "kafka:9092",
-                ProducerName = "producer1",                
+                BootstrapServers = "kafka:9092",
+                ProducerName = "producer1",
             });
 
             List<string> messages = new List<string>();
@@ -233,6 +240,9 @@ namespace AkkaDotBootApi.Test
             //보너스 : 생산의 속도를 조절할수 있습니다.
             int tps = 10;
             producerSystem.SinkMessage("producer1", "akka100", messages, tps);
+
         }
+
+
     }
 }
