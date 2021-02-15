@@ -21,7 +21,7 @@ jobs:
       with:
         dotnet-version: 3.1.301
     - name: Docker Login
-      run: docker login -u ${{ secrets.DOCKERHUB_ID }} -p ${{ secrets.DOCKERHUV_PW }}
+      run: docker login -u ${{ secrets.DOCKERHUB_ID }} -p ${{ secrets.DOCKERHUB_PW }}
     - name: DockerBuild Version
       run: docker build -f AkkaDotBootApi/Dockerfile --force-rm -t psmon/akkadot-bootapi:latest -t psmon/akkadot-bootapi:$(git describe --tags | sed s/[p]//g) --label "com.microsoft.created-by=visual-studio" --label "com.microsoft.visual-studio.project-name=AkkaDotBootApi" .    
     - name: Docker Push Latest
