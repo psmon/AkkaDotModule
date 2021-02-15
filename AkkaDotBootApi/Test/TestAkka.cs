@@ -71,7 +71,7 @@ namespace AkkaDotBootApi.Test
             }
             try
             {
-                Task.WaitAll(tasks);
+                //Task.WaitAll(tasks);
                 Console.WriteLine("Completed,Tell");
             }
             catch (AggregateException ae)
