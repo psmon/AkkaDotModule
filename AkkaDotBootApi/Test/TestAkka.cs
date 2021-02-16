@@ -47,16 +47,17 @@ namespace AkkaDotBootApi.Test
             // 밸브 작업자를 지정
             throttleWork.Tell(new SetTarget(worker));
 
-            //StartLoadTest(app,actorSystem);
+            //StartLoadTestByRouter(app,actorSystem);
+            //StartLoadTestByPingPong(app,actorSystem);
+
             //StartKafkaTest(app, actorSystem);
         }
 
-        static public void StartLoadTest(IApplicationBuilder app, ActorSystem actorSystem)
+        static public void StartLoadTestByPingPong(IApplicationBuilder app, ActorSystem actorSystem)
         {
-
             //##################################################################
             //##### TPS 측정편 - 액터성능
-            //##### 
+            //##### 핑퐁
             //##### 
             //##################################################################
 
@@ -65,10 +66,53 @@ namespace AkkaDotBootApi.Test
             //custom-dispatcher , custom-task-dispatcher , default-fork-join-dispatcher
             string disPacther = "custom-task-dispatcher";
             int pipongGroupCount = 1;   // 핑퐁그룹,탁구대를 늘릴수있다. ( 2인1조)
-            int ballCount = 6;          // 핑퐁에 사용된 공개수            
+            int ballCount = 6;          // 핑퐁에 사용된 공개수    
+
+            // 무한전송 셋트...
+            for (int i = 0; i < pipongGroupCount; i++)
+            {
+                string actorFirstName = "infiniteReflectionActorA" + i;
+                string actorSecondName = "infiniteReflectionActorB" + i;
+
+                // 무한전송 Test Actor생성
+                var infiniteReflectionActorA = AkkaLoad.RegisterActor(actorFirstName,
+                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther),
+                        actorFirstName));
+
+                var infiniteReflectionActorB = AkkaLoad.RegisterActor(actorSecondName,
+                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther),
+                        actorSecondName));
+
+                //무한전송을 위한,응답대상을 크로스로 연결및 무한메시지 시작
+                infiniteReflectionActorA.Tell(infiniteReflectionActorB);
+                infiniteReflectionActorB.Tell(infiniteReflectionActorA);
+
+                for (int ballIdx = 0; ballIdx < ballCount; ballIdx++)
+                {                    
+                    infiniteReflectionActorA.Tell(new InfiniteMessage()
+                    {
+                        Message = "서브A",
+                        Count = 0
+                    });                    
+                }
+            }
+        }
+
+        static public void StartLoadTestByRouter(IApplicationBuilder app, ActorSystem actorSystem)
+        {
+
+            //##################################################################
+            //##### TPS 측정편 - 액터성능
+            //##### 라우터
+            //##### 
+            //##################################################################
 
             int testHitCount = 400000;
             int distributedCnt = 50;
+
+            //튜닝요소
+            //custom-dispatcher , custom-task-dispatcher , default-fork-join-dispatcher
+            string disPacther = "custom-task-dispatcher";
 
             var roundPool = AkkaLoad.RegisterActor("roundPool",
                 actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther)
@@ -100,39 +144,6 @@ namespace AkkaDotBootApi.Test
                 foreach (var ex in ae.Flatten().InnerExceptions)
                     Console.WriteLine("   {0}", ex.Message);
             }
-
-
-            // 무한전송 셋트...
-            for (int i = 0; i < pipongGroupCount; i++)
-            {
-                string actorFirstName = "infiniteReflectionActorA" + i;
-                string actorSecondName = "infiniteReflectionActorB" + i;
-
-                // 무한전송 Test Actor생성
-                var infiniteReflectionActorA = AkkaLoad.RegisterActor(actorFirstName,
-                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther),
-                        actorFirstName));
-
-                var infiniteReflectionActorB = AkkaLoad.RegisterActor(actorSecondName,
-                    actorSystem.ActorOf(Props.Create(() => new InfiniteReflectionActor()).WithDispatcher(disPacther),
-                        actorSecondName));
-
-                //무한전송을 위한,응답대상을 크로스로 연결및 무한메시지 시작
-                infiniteReflectionActorA.Tell(infiniteReflectionActorB);
-                infiniteReflectionActorB.Tell(infiniteReflectionActorA);
-
-                for (int ballIdx = 0; ballIdx < ballCount; ballIdx++)
-                {
-                    /*
-                    infiniteReflectionActorA.Tell(new InfiniteMessage()
-                    {
-                        Message = "서브A",
-                        Count = 0
-                    });
-                    */
-                }
-            }
-
         }
 
         static public void StartKafkaTest(IApplicationBuilder app, ActorSystem actorSystem)
@@ -240,9 +251,6 @@ namespace AkkaDotBootApi.Test
             //보너스 : 생산의 속도를 조절할수 있습니다.
             int tps = 10;
             producerSystem.SinkMessage("producer1", "akka100", messages, tps);
-
         }
-
-
     }
 }
