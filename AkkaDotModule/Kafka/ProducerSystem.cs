@@ -45,12 +45,12 @@ namespace AkkaDotModule.Kafka
             ProducerSettings<Null, string> producerSettings = producerList[producerName];
 
             Source<string, NotUsed> source = Source.From(message);
-            source
-            .Throttle(tps, TimeSpan.FromSeconds(1), 100, ThrottleMode.Shaping)      //TPS
+            source            
             .Select(c =>
             {
                 return c;
             })
+            .Throttle(tps, TimeSpan.FromSeconds(1), 1000, ThrottleMode.Shaping)      //TPS
             .Select(elem => ProducerMessage.Single(new ProducerRecord<Null, string>(topic, elem)))
             .Via(KafkaProducer.FlexiFlow<Null, string, NotUsed>(producerSettings))
             .Select(result =>

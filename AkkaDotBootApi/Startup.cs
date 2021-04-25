@@ -67,9 +67,7 @@ namespace AkkaDotBootApi
             {
                 StatsdServerName = "127.0.0.1"
             };
-
-            //ActorMonitoringExtension.RegisterMonitor(actorSystem, new ActorDatadogMonitor(statsdConfig));
-
+            ActorMonitoringExtension.RegisterMonitor(actorSystem, new ActorDatadogMonitor(statsdConfig));
 
             // Signal R 셋팅
             services

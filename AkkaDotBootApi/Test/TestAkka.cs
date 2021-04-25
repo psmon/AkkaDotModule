@@ -48,7 +48,8 @@ namespace AkkaDotBootApi.Test
             throttleWork.Tell(new SetTarget(worker));
 
             //StartLoadTestByRouter(app,actorSystem);
-            //StartLoadTestByPingPong(app,actorSystem);
+
+            StartLoadTestByPingPong(app,actorSystem);
 
             //StartKafkaTest(app, actorSystem);
         }
@@ -65,8 +66,8 @@ namespace AkkaDotBootApi.Test
             //튜닝요소
             //custom-dispatcher , custom-task-dispatcher , default-fork-join-dispatcher
             string disPacther = "custom-task-dispatcher";
-            int pipongGroupCount = 1;   // 핑퐁그룹,탁구대를 늘릴수있다. ( 2인1조)
-            int ballCount = 6;          // 핑퐁에 사용된 공개수    
+            int pipongGroupCount = 3;   // 핑퐁그룹,탁구대를 늘릴수있다. ( 2인1조)
+            int ballCount = 0;          // 핑퐁에 사용된 공개수    
 
             // 무한전송 셋트...
             for (int i = 0; i < pipongGroupCount; i++)

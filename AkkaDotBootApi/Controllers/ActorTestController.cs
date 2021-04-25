@@ -85,7 +85,7 @@ namespace AkkaDotBootApi.Controllers
         [HttpGet("InfiniteReflectionActor")]
         public string InfiniteReflectionActor_Test()
         {
-            var infiniteReflectionActor1 = _actorSystem.ActorSelection("user/infiniteReflectionActor1");
+            var infiniteReflectionActor1 = _actorSystem.ActorSelection("user/infiniteReflectionActor*");
             infiniteReflectionActor1.Tell(new InfiniteMessage()
             {
                 Message = "무한메시지",
