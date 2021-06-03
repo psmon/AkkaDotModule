@@ -126,6 +126,9 @@ Link : https://www.nuget.org/packages/AkkaDotModule.Webnori/
  - https://github.com/Azure/azure-event-hubs-for-kafka : Azure EventHub에 Kafka연결하기
  - https://github.com/confluentinc/confluent-kafka-dotnet : 닷넷 코어로 Kafka연결하기
 
+## 이모듈이 사용된 프로젝트
+ - https://www.showa.kr/ : 내가 좋아하는 모든 쇼핑몰을 한 곳에서,원하는 아이템을 SHOWA 에서 한 번에 찾으세요.
+
 ## 기술지원
 
 이 모듈 사용을 포함 akka에 대한 기술문의 언제든 환영입니다.
