@@ -49,7 +49,7 @@ namespace TestAkkaDotModule.TestActors
                     break;
                 case "shutdown":                    
                     worker.Tell(PoisonPill.Instance, Self);
-                    Context.Become(ShuttingDown);
+                    Context.Become(ShuttingDown);   //종료모드로 메시지처리 상태변경
                     break;                
             }
         }
@@ -92,8 +92,14 @@ namespace TestAkkaDotModule.TestActors
 
         [Theory(DisplayName = "GracefulStopTest")]
         [InlineData(5)]
-        public async Task Test1(int waitTimeSec)
+        public async Task GtaceFulStopAreOK(int waitTimeSec)
         {
+            //Step:
+            // 1.GracefulStop 을통한 종료 시그널 발생 
+            // 2.자식 액터종료(PoisonPill, 지금까지 받은메시지까지만 처리하고)
+            // 3.GracefulStop , Terminated 될때까지 대기
+            // 검증 : 안전한 종료메시지가 왔는지 검사
+
             await manager.GracefulStop(TimeSpan.FromMilliseconds(3), "shutdown");
 
             probe.ExpectMsg("SafeClose", TimeSpan.FromSeconds(waitTimeSec));
