@@ -15,11 +15,11 @@
   
     <ItemGroup>
     <!-- Base / Persitence  -->
-    <PackageReference Include="Akka" Version="1.4.12" />
+    <PackageReference Include="Akka" Version="1.5.52" />
     <PackageReference Include="Akka.Persistence" Version="1.4.12" />      
     <!-- Network  -->
-    <PackageReference Include="Akka.Remote" Version="1.4.12" />
-    <PackageReference Include="Akka.Cluster" Version="1.4.12" />
+    <PackageReference Include="Akka.Remote" Version="1.5.52" />
+    <PackageReference Include="Akka.Cluster" Version="1.5.52" />
     <PackageReference Include="Akka.Cluster.Tools" Version="1.4.12" />
     <!-- Stream / Kafka -->
     <PackageReference Include="Akka.Streams" Version="1.4.12" />
