@@ -49,7 +49,7 @@
             io.rancher.container.hostname_override: container_name   
       kafka:
         hostname: kafka
-        image: 'bitnami/kafka:latest'
+        image: 'soldevelo/kafka:latest'
         ports:
         - '9092:9092'
         environment:
